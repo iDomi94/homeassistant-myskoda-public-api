@@ -1,0 +1,664 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "MyŠkoda API-Schlüssel",
+        "description": "Gib den API-Schlüssel ein, den du in der MyŠkoda-App unter API-Schlüssel erstellt hast ({url}). Der Schlüssel gilt nur für die bei der Erstellung ausgewählten Fahrzeuge und läuft ab – danach wirst du nach einem neuen gefragt.",
+        "data": {
+          "api_key": "API-Schlüssel"
+        }
+      },
+      "vehicles": {
+        "title": "Fahrzeuge",
+        "description": "Die öffentliche API bietet keinen Endpunkt, der die Fahrzeuge eines API-Schlüssels auflistet – daher müssen die FINs hier eingetragen werden. Trage pro Eintrag eine FIN (17 Zeichen) ein, genau die Fahrzeuge, die du beim Erstellen des Schlüssels ausgewählt hast.",
+        "data": {
+          "vins": "FIN"
+        }
+      },
+      "reauth_confirm": {
+        "title": "API-Schlüssel erneuern",
+        "description": "Der API-Schlüssel ist nicht mehr gültig. Erstelle in der MyŠkoda-App ({url}) einen neuen für dieselben Fahrzeuge und trage ihn hier ein.",
+        "data": {
+          "api_key": "API-Schlüssel"
+        }
+      }
+    },
+    "error": {
+      "invalid_api_key": "Der API-Schlüssel wurde abgelehnt.",
+      "expired_api_key": "Der API-Schlüssel ist abgelaufen. Erstelle in der MyŠkoda-App einen neuen.",
+      "vehicle_not_authorized": "Der API-Schlüssel gilt nicht für dieses Fahrzeug. Erstelle einen Schlüssel, der es einschließt.",
+      "vehicle_not_found": "Zu dieser FIN existiert kein Fahrzeug.",
+      "invalid_vin": "Eine FIN hat genau 17 Zeichen.",
+      "no_vehicles": "Gib mindestens eine FIN ein.",
+      "rate_limited": "Das stündliche Anfragelimit ist ausgeschöpft. Versuche es später erneut.",
+      "cannot_connect": "Verbindung zur MyŠkoda-API fehlgeschlagen.",
+      "unknown": "Unerwarteter Fehler."
+    },
+    "abort": {
+      "already_configured": "Diese Fahrzeuge sind bereits eingerichtet.",
+      "reauth_successful": "Der API-Schlüssel wurde aktualisiert.",
+      "reconfigure_successful": "Die Konfiguration wurde aktualisiert.",
+      "different_vehicles": "Der neue API-Schlüssel gilt für andere Fahrzeuge. Richte diese als eigenen Eintrag ein."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Optionen",
+        "description": "Die MyŠkoda-API erlaubt 20 Anfragen pro Stunde und API-Schlüssel – geteilt über alle Fahrzeuge und alle Fernbefehle. Bei {vehicles} Fahrzeug(en) verbraucht das aktuelle Intervall allein fürs Abfragen etwa {requests_per_hour} Anfragen pro Stunde.",
+        "data": {
+          "poll_interval_in_minutes": "Abfrageintervall",
+          "spin": "S-PIN (für Standheizung erforderlich)",
+          "refresh_after_command": "Nach einem Befehl kurz darauf aktualisieren"
+        }
+      }
+    },
+    "error": {
+      "invalid_spin": "Die S-PIN besteht nur aus Ziffern."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "license_plate": {
+        "name": "Kennzeichen"
+      },
+      "vin": {
+        "name": "FIN"
+      },
+      "mileage": {
+        "name": "Kilometerstand"
+      },
+      "odometer_captured_at": {
+        "name": "Kilometerstand erfasst am"
+      },
+      "car_type": {
+        "name": "Fahrzeugtyp",
+        "state": {
+          "HYBRID": "Hybrid",
+          "GASOLINE": "Benzin",
+          "DIESEL": "Diesel",
+          "CNG": "Erdgas",
+          "LPG": "Autogas"
+        }
+      },
+      "total_range": {
+        "name": "Gesamtreichweite"
+      },
+      "adblue_range": {
+        "name": "AdBlue-Reichweite"
+      },
+      "primary_engine_type": {
+        "name": "Primärer Antrieb",
+        "state": {
+          "ELECTRIC": "Elektrisch",
+          "GASOLINE": "Benzin",
+          "DIESEL": "Diesel",
+          "CNG": "Erdgas",
+          "LPG": "Autogas"
+        }
+      },
+      "primary_engine_range": {
+        "name": "Reichweite primärer Antrieb"
+      },
+      "primary_engine_fuel_level": {
+        "name": "Tankfüllstand primärer Antrieb"
+      },
+      "primary_engine_soc": {
+        "name": "Ladestand primärer Antrieb"
+      },
+      "secondary_engine_type": {
+        "name": "Sekundärer Antrieb",
+        "state": {
+          "ELECTRIC": "Elektrisch",
+          "GASOLINE": "Benzin",
+          "DIESEL": "Diesel",
+          "CNG": "Erdgas",
+          "LPG": "Autogas"
+        }
+      },
+      "secondary_engine_range": {
+        "name": "Reichweite sekundärer Antrieb"
+      },
+      "secondary_engine_fuel_level": {
+        "name": "Tankfüllstand sekundärer Antrieb"
+      },
+      "secondary_engine_soc": {
+        "name": "Ladestand sekundärer Antrieb"
+      },
+      "fuel_status_captured_at": {
+        "name": "Tankstatus erfasst am"
+      },
+      "charging_state": {
+        "name": "Ladezustand",
+        "state": {
+          "CONNECT_CABLE": "Kabel anschließen",
+          "CHARGING": "Lädt",
+          "CONSERVING": "Erhaltungsladung",
+          "READY_FOR_CHARGING": "Bereit zum Laden",
+          "DISCHARGING": "Entlädt",
+          "CHARGING_INTERRUPTED": "Laden unterbrochen"
+        }
+      },
+      "charge_type": {
+        "name": "Ladeart",
+        "state": {
+          "AC": "AC",
+          "DC": "DC",
+          "OFF": "Aus"
+        }
+      },
+      "charging_power": {
+        "name": "Ladeleistung"
+      },
+      "charging_rate": {
+        "name": "Ladegeschwindigkeit"
+      },
+      "remaining_charging_time": {
+        "name": "Verbleibende Ladezeit"
+      },
+      "fully_charged_at": {
+        "name": "Vollständig geladen um"
+      },
+      "battery_soc": {
+        "name": "Batterieladestand"
+      },
+      "battery_range": {
+        "name": "Elektrische Reichweite"
+      },
+      "target_soc": {
+        "name": "Ziel-Ladestand"
+      },
+      "battery_care_target_soc": {
+        "name": "Ziel-Ladestand Batterieschonung"
+      },
+      "preferred_charge_mode": {
+        "name": "Bevorzugter Lademodus",
+        "state": {
+          "MANUAL": "Manuell",
+          "TIMER": "Timer",
+          "TIMER_CHARGING_WITH_CLIMATISATION": "Timer mit Klimatisierung",
+          "PREFERRED_CHARGING_TIMES": "Bevorzugte Ladezeiten",
+          "ONLY_OWN_CURRENT": "Nur eigener Strom",
+          "IMMEDIATE_DISCHARGING": "Sofortiges Entladen",
+          "HOME_STORAGE_CHARGING": "Laden aus Hausspeicher"
+        }
+      },
+      "charging_care_mode": {
+        "name": "Batterieschonung",
+        "state": {
+          "ACTIVATED": "Aktiviert",
+          "DEACTIVATED": "Deaktiviert"
+        }
+      },
+      "auto_unlock_plug": {
+        "name": "Stecker automatisch entriegeln",
+        "state": {
+          "PERMANENT": "Dauerhaft",
+          "OFF": "Aus"
+        }
+      },
+      "max_charge_current": {
+        "name": "Maximaler Ladestrom",
+        "state": {
+          "REDUCED": "Reduziert",
+          "MAXIMUM": "Maximal"
+        }
+      },
+      "max_charge_current_ampere": {
+        "name": "Maximaler Ladestrom (A)"
+      },
+      "charging_captured_at": {
+        "name": "Ladedaten erfasst am"
+      },
+      "air_conditioning_state": {
+        "name": "Klimatisierungsstatus",
+        "state": {
+          "OFF": "Aus",
+          "COOLING": "Kühlt",
+          "HEATING": "Heizt",
+          "HEATING_AUXILIARY": "Heizt mit Standheizung",
+          "VENTILATION": "Lüftung",
+          "COMPLETED": "Abgeschlossen"
+        }
+      },
+      "air_conditioning_target_temperature": {
+        "name": "Zieltemperatur Klimatisierung"
+      },
+      "air_conditioning_target_reached_at": {
+        "name": "Zieltemperatur erreicht um"
+      },
+      "window_heating_front": {
+        "name": "Frontscheibenheizung",
+        "state": {
+          "ON": "An",
+          "OFF": "Aus"
+        }
+      },
+      "window_heating_rear": {
+        "name": "Heckscheibenheizung",
+        "state": {
+          "ON": "An",
+          "OFF": "Aus"
+        }
+      },
+      "air_conditioning_captured_at": {
+        "name": "Klimadaten erfasst am"
+      },
+      "auxiliary_heating_state": {
+        "name": "Status Standheizung",
+        "state": {
+          "OFF": "Aus",
+          "PREHEATING": "Vorheizen",
+          "HEATING_AUXILIARY": "Heizt",
+          "VENTILATION": "Lüftung"
+        }
+      },
+      "auxiliary_heating_start_mode": {
+        "name": "Startmodus Standheizung",
+        "state": {
+          "HEATING": "Heizen",
+          "VENTILATION": "Lüften"
+        }
+      },
+      "auxiliary_heating_duration": {
+        "name": "Laufzeit Standheizung"
+      },
+      "auxiliary_heating_target_temperature": {
+        "name": "Zieltemperatur Standheizung"
+      },
+      "auxiliary_heating_target_reached_at": {
+        "name": "Zieltemperatur Standheizung erreicht um"
+      },
+      "auxiliary_heating_captured_at": {
+        "name": "Standheizungsdaten erfasst am"
+      },
+      "active_ventilation_state": {
+        "name": "Status Aktivlüftung",
+        "state": {
+          "OFF": "Aus",
+          "PREHEATING": "Vorbereiten",
+          "VENTILATION": "Lüftung"
+        }
+      },
+      "active_ventilation_duration": {
+        "name": "Laufzeit Aktivlüftung"
+      },
+      "active_ventilation_captured_at": {
+        "name": "Lüftungsdaten erfasst am"
+      },
+      "doors_locked_state": {
+        "name": "Verriegelung Türen und Kofferraum",
+        "state": {
+          "YES": "Verriegelt",
+          "NO": "Entriegelt",
+          "OPENED": "Geöffnet",
+          "TRUNK_OPENED": "Kofferraum offen"
+        }
+      },
+      "locked_state": {
+        "name": "Verriegelungsstatus",
+        "state": {
+          "YES": "Verriegelt",
+          "NO": "Entriegelt"
+        }
+      },
+      "doors_state": {
+        "name": "Türen",
+        "state": {
+          "OPEN": "Offen",
+          "CLOSED": "Geschlossen"
+        }
+      },
+      "windows_state": {
+        "name": "Fenster",
+        "state": {
+          "OPEN": "Offen",
+          "CLOSED": "Geschlossen"
+        }
+      },
+      "lights_state": {
+        "name": "Licht",
+        "state": {
+          "ON": "An",
+          "OFF": "Aus"
+        }
+      },
+      "reliable_lock_status": {
+        "name": "Zuverlässiger Verriegelungsstatus",
+        "state": {
+          "LOCKED": "Verriegelt",
+          "UNLOCKED": "Entriegelt"
+        }
+      },
+      "sunroof_state": {
+        "name": "Schiebedach",
+        "state": {
+          "OPEN": "Offen",
+          "CLOSED": "Geschlossen"
+        }
+      },
+      "trunk_state": {
+        "name": "Kofferraum",
+        "state": {
+          "OPEN": "Offen",
+          "CLOSED": "Geschlossen"
+        }
+      },
+      "bonnet_state": {
+        "name": "Motorhaube",
+        "state": {
+          "OPEN": "Offen",
+          "CLOSED": "Geschlossen"
+        }
+      },
+      "status_captured_at": {
+        "name": "Fahrzeugstatus erfasst am"
+      },
+      "parking_state": {
+        "name": "Parkstatus",
+        "state": {
+          "IN_MOTION": "In Bewegung",
+          "PARKED": "Geparkt"
+        }
+      },
+      "parking_address": {
+        "name": "Parkadresse"
+      },
+      "charging_profiles": {
+        "name": "Ladeprofile"
+      },
+      "current_charging_profile": {
+        "name": "Aktuelles Ladeprofil"
+      },
+      "current_charging_profile_target_soc": {
+        "name": "Ziel-Ladestand aktuelles Profil"
+      },
+      "next_charging_time": {
+        "name": "Nächste Ladezeit"
+      },
+      "charging_profiles_captured_at": {
+        "name": "Ladeprofile erfasst am"
+      },
+      "last_updated": {
+        "name": "Zuletzt aktualisiert"
+      },
+      "data_errors": {
+        "name": "Datenfehler"
+      },
+      "rate_limit_remaining": {
+        "name": "Verbleibende API-Anfragen"
+      },
+      "rate_limit": {
+        "name": "API-Anfragelimit"
+      },
+      "rate_limit_resets_at": {
+        "name": "API-Kontingent zurückgesetzt um"
+      },
+      "api_key_expires_at": {
+        "name": "API-Schlüssel läuft ab am"
+      }
+    },
+    "binary_sensor": {
+      "doors_locked": {
+        "name": "Türen verriegelt"
+      },
+      "doors_open": {
+        "name": "Türen"
+      },
+      "windows_open": {
+        "name": "Fenster"
+      },
+      "lights_on": {
+        "name": "Licht"
+      },
+      "sunroof_open": {
+        "name": "Schiebedach"
+      },
+      "trunk_open": {
+        "name": "Kofferraum"
+      },
+      "bonnet_open": {
+        "name": "Motorhaube"
+      },
+      "charging": {
+        "name": "Lädt"
+      },
+      "charging_cable_connected": {
+        "name": "Ladekabel"
+      },
+      "vehicle_in_saved_location": {
+        "name": "An gespeichertem Ort"
+      },
+      "air_conditioning_running": {
+        "name": "Klimatisierung"
+      },
+      "window_heating_enabled": {
+        "name": "Scheibenheizung aktiviert"
+      },
+      "window_heating_front_on": {
+        "name": "Frontscheibenheizung"
+      },
+      "window_heating_rear_on": {
+        "name": "Heckscheibenheizung"
+      },
+      "air_conditioning_without_external_power": {
+        "name": "Klimatisierung ohne externe Stromversorgung"
+      },
+      "air_conditioning_at_unlock": {
+        "name": "Klimatisierung beim Entriegeln"
+      },
+      "auxiliary_heating_running": {
+        "name": "Standheizung"
+      },
+      "active_ventilation_running": {
+        "name": "Aktivlüftung"
+      },
+      "in_motion": {
+        "name": "In Bewegung"
+      },
+      "api_key_expiring": {
+        "name": "API-Schlüssel läuft bald ab"
+      },
+      "rate_limited": {
+        "name": "Anfragelimit erreicht"
+      }
+    },
+    "switch": {
+      "charging": {
+        "name": "Laden"
+      },
+      "air_conditioning": {
+        "name": "Klimatisierung"
+      },
+      "auxiliary_heating": {
+        "name": "Standheizung"
+      },
+      "active_ventilation": {
+        "name": "Aktivlüftung"
+      },
+      "air_conditioning_without_external_power_setting": {
+        "name": "Klimatisierung ohne externe Stromversorgung erlauben"
+      }
+    },
+    "climate": {
+      "air_conditioning": {
+        "name": "Klimatisierung"
+      },
+      "auxiliary_heating": {
+        "name": "Standheizung"
+      }
+    },
+    "number": {
+      "target_temperature_setting": {
+        "name": "Zieltemperatur"
+      },
+      "auxiliary_heating_duration_setting": {
+        "name": "Laufzeit Standheizung"
+      }
+    },
+    "select": {
+      "auxiliary_heating_start_mode_setting": {
+        "name": "Startmodus Standheizung",
+        "state": {
+          "heating": "Heizen",
+          "ventilation": "Lüften"
+        }
+      }
+    },
+    "button": {
+      "refresh": {
+        "name": "Aktualisieren"
+      },
+      "start_charging": {
+        "name": "Laden starten"
+      },
+      "stop_charging": {
+        "name": "Laden stoppen"
+      },
+      "start_air_conditioning": {
+        "name": "Klimatisierung starten"
+      },
+      "stop_air_conditioning": {
+        "name": "Klimatisierung stoppen"
+      },
+      "start_auxiliary_heating": {
+        "name": "Standheizung starten"
+      },
+      "stop_auxiliary_heating": {
+        "name": "Standheizung stoppen"
+      },
+      "start_active_ventilation": {
+        "name": "Aktivlüftung starten"
+      },
+      "stop_active_ventilation": {
+        "name": "Aktivlüftung stoppen"
+      }
+    },
+    "device_tracker": {
+      "parking_position": {
+        "name": "Parkposition"
+      }
+    },
+    "image": {
+      "render": {
+        "name": "Fahrzeugbild"
+      }
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Aktualisieren",
+      "description": "Fragt die MyŠkoda-API sofort ab. Zählt gegen das Stundenkontingent.",
+      "fields": {
+        "vin": {
+          "name": "FIN",
+          "description": "Aktion auf diese FIN begrenzen."
+        }
+      }
+    },
+    "start_charging": {
+      "name": "Laden starten",
+      "description": "Startet den Ladevorgang.",
+      "fields": {
+        "vin": {
+          "name": "FIN",
+          "description": "Aktion auf diese FIN begrenzen."
+        }
+      }
+    },
+    "stop_charging": {
+      "name": "Laden stoppen",
+      "description": "Stoppt den Ladevorgang.",
+      "fields": {
+        "vin": {
+          "name": "FIN",
+          "description": "Aktion auf diese FIN begrenzen."
+        }
+      }
+    },
+    "start_air_conditioning": {
+      "name": "Klimatisierung starten",
+      "description": "Startet die Klimatisierung auf eine Zieltemperatur.",
+      "fields": {
+        "vin": {
+          "name": "FIN",
+          "description": "Aktion auf diese FIN begrenzen."
+        },
+        "temperature": {
+          "name": "Zieltemperatur",
+          "description": "Standard ist die Zieltemperatur-Entität."
+        },
+        "without_external_power": {
+          "name": "Ohne externe Stromversorgung",
+          "description": "Betrieb ohne Netzanschluss erlauben."
+        }
+      }
+    },
+    "stop_air_conditioning": {
+      "name": "Klimatisierung stoppen",
+      "description": "Stoppt die Klimatisierung.",
+      "fields": {
+        "vin": {
+          "name": "FIN",
+          "description": "Aktion auf diese FIN begrenzen."
+        }
+      }
+    },
+    "start_auxiliary_heating": {
+      "name": "Standheizung starten",
+      "description": "Startet die Standheizung. Erfordert die S-PIN.",
+      "fields": {
+        "vin": {
+          "name": "FIN",
+          "description": "Aktion auf diese FIN begrenzen."
+        },
+        "temperature": {
+          "name": "Zieltemperatur",
+          "description": "Standard ist die Zieltemperatur-Entität."
+        },
+        "duration": {
+          "name": "Laufzeit",
+          "description": "Laufzeit in Minuten."
+        },
+        "start_mode": {
+          "name": "Startmodus",
+          "description": "Heizen oder Lüften."
+        },
+        "spin": {
+          "name": "S-PIN",
+          "description": "Überschreibt die S-PIN aus den Optionen."
+        }
+      }
+    },
+    "stop_auxiliary_heating": {
+      "name": "Standheizung stoppen",
+      "description": "Stoppt die Standheizung.",
+      "fields": {
+        "vin": {
+          "name": "FIN",
+          "description": "Aktion auf diese FIN begrenzen."
+        }
+      }
+    },
+    "start_active_ventilation": {
+      "name": "Aktivlüftung starten",
+      "description": "Startet die Aktivlüftung.",
+      "fields": {
+        "vin": {
+          "name": "FIN",
+          "description": "Aktion auf diese FIN begrenzen."
+        }
+      }
+    },
+    "stop_active_ventilation": {
+      "name": "Aktivlüftung stoppen",
+      "description": "Stoppt die Aktivlüftung.",
+      "fields": {
+        "vin": {
+          "name": "FIN",
+          "description": "Aktion auf diese FIN begrenzen."
+        }
+      }
+    }
+  }
+}

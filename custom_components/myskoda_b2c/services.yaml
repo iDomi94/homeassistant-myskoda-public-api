@@ -1,0 +1,149 @@
+# Actions exposed by the MyŠkoda B2C integration.
+# Every call reaches the MyŠkoda Public API and counts against the hourly quota
+# of 20 requests per API key.
+
+refresh:
+  target:
+    device:
+      integration: myskoda_b2c
+  fields:
+    vin:
+      required: false
+      example: TMBJB9NY5RF999999
+      selector:
+        text:
+
+start_charging:
+  target:
+    device:
+      integration: myskoda_b2c
+  fields:
+    vin:
+      required: false
+      example: TMBJB9NY5RF999999
+      selector:
+        text:
+
+stop_charging:
+  target:
+    device:
+      integration: myskoda_b2c
+  fields:
+    vin:
+      required: false
+      example: TMBJB9NY5RF999999
+      selector:
+        text:
+
+start_air_conditioning:
+  target:
+    device:
+      integration: myskoda_b2c
+  fields:
+    vin:
+      required: false
+      example: TMBJB9NY5RF999999
+      selector:
+        text:
+    temperature:
+      required: false
+      example: 21.5
+      selector:
+        number:
+          min: 16
+          max: 29.5
+          step: 0.5
+          unit_of_measurement: "°C"
+          mode: box
+    without_external_power:
+      required: false
+      selector:
+        boolean:
+
+stop_air_conditioning:
+  target:
+    device:
+      integration: myskoda_b2c
+  fields:
+    vin:
+      required: false
+      example: TMBJB9NY5RF999999
+      selector:
+        text:
+
+start_auxiliary_heating:
+  target:
+    device:
+      integration: myskoda_b2c
+  fields:
+    vin:
+      required: false
+      example: TMBJB9NY5RF999999
+      selector:
+        text:
+    temperature:
+      required: false
+      example: 21.5
+      selector:
+        number:
+          min: 16
+          max: 29.5
+          step: 0.5
+          unit_of_measurement: "°C"
+          mode: box
+    duration:
+      required: false
+      example: 20
+      selector:
+        number:
+          min: 5
+          max: 60
+          step: 5
+          unit_of_measurement: min
+          mode: box
+    start_mode:
+      required: false
+      selector:
+        select:
+          options:
+            - heating
+            - ventilation
+    spin:
+      required: false
+      example: "1234"
+      selector:
+        text:
+          type: password
+
+stop_auxiliary_heating:
+  target:
+    device:
+      integration: myskoda_b2c
+  fields:
+    vin:
+      required: false
+      example: TMBJB9NY5RF999999
+      selector:
+        text:
+
+start_active_ventilation:
+  target:
+    device:
+      integration: myskoda_b2c
+  fields:
+    vin:
+      required: false
+      example: TMBJB9NY5RF999999
+      selector:
+        text:
+
+stop_active_ventilation:
+  target:
+    device:
+      integration: myskoda_b2c
+  fields:
+    vin:
+      required: false
+      example: TMBJB9NY5RF999999
+      selector:
+        text:

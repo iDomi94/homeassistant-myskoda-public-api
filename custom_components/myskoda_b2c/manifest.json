@@ -1,0 +1,14 @@
+{
+  "domain": "myskoda_b2c",
+  "name": "MyŠkoda B2C",
+  "codeowners": ["@iDomi94"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/iDomi94/MySKoda_B2C/blob/main/README.md",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/iDomi94/MySKoda_B2C/issues",
+  "loggers": ["custom_components.myskoda_b2c"],
+  "requirements": [],
+  "version": "0.1.0"
+}

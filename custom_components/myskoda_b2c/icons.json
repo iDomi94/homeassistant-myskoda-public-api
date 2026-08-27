@@ -1,0 +1,13 @@
+{
+  "services": {
+    "refresh": "mdi:refresh",
+    "start_charging": "mdi:ev-station",
+    "stop_charging": "mdi:stop",
+    "start_air_conditioning": "mdi:air-conditioner",
+    "stop_air_conditioning": "mdi:air-conditioner",
+    "start_auxiliary_heating": "mdi:radiator",
+    "stop_auxiliary_heating": "mdi:radiator-off",
+    "start_active_ventilation": "mdi:fan",
+    "stop_active_ventilation": "mdi:fan-off"
+  }
+}
