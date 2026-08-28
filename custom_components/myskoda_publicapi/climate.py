@@ -132,13 +132,21 @@ class MySkodaClimateBase(MySkodaVehicleEntity, ClimateEntity):
         return self.coordinator_settings.target_temperature
 
     async def async_set_temperature(self, **kwargs: Any) -> None:
-        """Store the new target and re-issue the command if it is running."""
+        """Store the new target, and re-issue the command if it is running.
+
+        The API accepts a target temperature only as part of a start command,
+        so setting one while the climate function is off is remembered for the
+        next start rather than sent to the vehicle.
+        """
         temperature = kwargs.get(ATTR_TEMPERATURE)
         if temperature is None:
             return
         self.coordinator_settings.target_temperature = float(temperature)
         self.async_write_ha_state()
-        if self.hvac_mode != HVACMode.OFF:
+        # Only re-issue while it is known to be running. An unreported state
+        # must not be read as "on", or moving the slider would start the
+        # vehicle's climate control by itself.
+        if self.hvac_mode not in (None, HVACMode.OFF):
             await self._async_start()
 
     async def _async_start(self) -> None:

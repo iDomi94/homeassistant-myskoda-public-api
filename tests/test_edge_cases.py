@@ -227,3 +227,82 @@ async def test_disabled_part_produces_no_entities(hass: HomeAssistant, api) -> N
     assert hass.states.get("sensor.my_enyaq_data_errors").state == "1"
     # Everything else still works.
     assert hass.states.get("sensor.my_enyaq_mileage").state == "12753"
+
+
+async def test_setting_temperature_while_off_sends_nothing(
+    hass: HomeAssistant, api
+) -> None:
+    """A target temperature is remembered, not sent, while the climate is off."""
+    payload = bev_with(**{"airConditioning.state": "OFF"})
+    mock_vehicle(api, VIN_BEV, payload)
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_API_KEY: "k", CONF_VINS: [VIN_BEV]},
+        unique_id=VIN_BEV,
+    )
+    entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+
+    before = sum(len(calls) for calls in api.requests.values())
+    await hass.services.async_call(
+        "climate",
+        "set_temperature",
+        {ATTR_ENTITY_ID: "climate.my_enyaq_air_conditioning", "temperature": 18.0},
+        blocking=True,
+    )
+    assert sum(len(calls) for calls in api.requests.values()) == before
+    assert entry.runtime_data.settings(VIN_BEV).target_temperature == 18.0
+
+
+async def test_setting_temperature_on_unknown_state_sends_nothing(
+    hass: HomeAssistant, api
+) -> None:
+    """An unreported climate state must not be treated as running.
+
+    Otherwise moving the thermostat would start the vehicle's climate control
+    on any vehicle that does not report the state.
+    """
+    payload = bev_with(**{"airConditioning.state": "UNKNOWN"})
+    mock_vehicle(api, VIN_BEV, payload)
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_API_KEY: "k", CONF_VINS: [VIN_BEV]},
+        unique_id=VIN_BEV,
+    )
+    entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+
+    before = sum(len(calls) for calls in api.requests.values())
+    await hass.services.async_call(
+        "climate",
+        "set_temperature",
+        {ATTR_ENTITY_ID: "climate.my_enyaq_air_conditioning", "temperature": 18.0},
+        blocking=True,
+    )
+    assert sum(len(calls) for calls in api.requests.values()) == before
+
+
+async def test_setting_temperature_while_running_reissues_the_command(
+    hass: HomeAssistant, api
+) -> None:
+    """While the climate is running, a new target is applied right away."""
+    entry = await setup_integration(hass, api)  # BEV reports state HEATING
+    api.post(
+        f"{BASE}/api/v1/vehicles/{VIN_BEV}/air-conditioning/start",
+        status=HTTPStatus.ACCEPTED,
+    )
+    await hass.services.async_call(
+        "climate",
+        "set_temperature",
+        {ATTR_ENTITY_ID: "climate.my_enyaq_air_conditioning", "temperature": 18.0},
+        blocking=True,
+    )
+    body = next(
+        calls[-1].kwargs["json"]
+        for key, calls in api.requests.items()
+        if key[0] == "POST"
+    )
+    assert body["targetTemperature"]["value"] == 18.0
+    assert entry.runtime_data.settings(VIN_BEV).target_temperature == 18.0
