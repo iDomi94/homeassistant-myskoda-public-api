@@ -440,3 +440,50 @@ async def test_manual_refresh_is_throttled(hass: HomeAssistant, api) -> None:
     await hass.async_block_till_done()
     assert request_count(api) - before > 1
     assert coordinator.last_update_success
+
+
+async def test_poll_interval_can_be_set_from_an_automation(
+    hass: HomeAssistant, api
+) -> None:
+    """The interval is an entity, so number.set_value can change it."""
+    entry = await setup_integration(hass, api)
+    coordinator = entry.runtime_data
+    entity_id = "number.myskoda_public_api_polling_interval"
+    assert hass.states.get(entity_id).state == "30"
+
+    await hass.services.async_call(
+        "number",
+        "set_value",
+        {ATTR_ENTITY_ID: entity_id, "value": 5},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert coordinator.update_interval == timedelta(minutes=5)
+    assert hass.states.get(entity_id).state == "5"
+    # The change is stored on the entry, so it survives a restart.
+    assert entry.options["poll_interval_in_minutes"] == 5
+
+
+async def test_shortening_rearms_the_timer_lengthening_is_free(
+    hass: HomeAssistant, api
+) -> None:
+    """Only a shortened interval spends a request on re-arming the timer."""
+    entry = await setup_integration(hass, api)
+    entity_id = "number.myskoda_public_api_polling_interval"
+
+    before = request_count(api)
+    await hass.services.async_call(
+        "number", "set_value", {ATTR_ENTITY_ID: entity_id, "value": 5}, blocking=True
+    )
+    await hass.async_block_till_done()
+    assert request_count(api) - before == 1
+
+    # Going back up re-arms itself at the next poll, which is already due soon.
+    before = request_count(api)
+    await hass.services.async_call(
+        "number", "set_value", {ATTR_ENTITY_ID: entity_id, "value": 60}, blocking=True
+    )
+    await hass.async_block_till_done()
+    assert request_count(api) - before == 0
+    assert entry.runtime_data.update_interval == timedelta(minutes=60)

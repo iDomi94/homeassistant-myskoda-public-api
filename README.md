@@ -70,9 +70,56 @@ Fahrzeuge fallen also direkt im Dialog auf.
 
 | Option | Standard | Bedeutung |
 |---|---|---|
-| Abfrageintervall | 30 min | 5–1440 Minuten. Der Dialog zeigt an, wie viele Anfragen/Stunde die aktuelle Einstellung verbraucht. |
+| Abfrageintervall | 30 min | 5–1440 Minuten. Der Dialog zeigt an, wie viele Anfragen/Stunde die aktuelle Einstellung verbraucht. Auch als Entität aus Automationen änderbar — siehe unten. |
 | S-PIN | leer | Nur für die **Standheizung** nötig — die API verlangt sie im Start-Aufruf. Ohne S-PIN funktioniert alles andere. |
 | Nach Befehl aktualisieren | an | Fragt ~30 s nach einem Fernbefehl einmal nach, damit der neue Zustand zeitnah ankommt. Wird übersprungen, wenn weniger als 3 Anfragen im Kontingent übrig sind. |
+
+## Abfrageintervall aus Automationen steuern
+
+Das Intervall ist zusätzlich eine Entität — `number.<api-gerät>_abfrageintervall` auf dem
+Dienst-Gerät *MyŠkoda Public API*. Damit lässt es sich per `number.set_value` aus einer
+Automation ändern, etwa um während des Ladens öfter abzufragen und danach wieder
+zurückzugehen. Der Wert landet in denselben Optionen wie über den Dialog und übersteht
+deshalb einen Neustart.
+
+```yaml
+automation:
+  - alias: MyŠkoda schneller abfragen während des Ladens
+    triggers:
+      - trigger: state
+        entity_id: binary_sensor.my_enyaq_charging
+        to: "on"
+    actions:
+      - action: number.set_value
+        target:
+          entity_id: number.myskoda_public_api_abfrageintervall
+        data:
+          value: 5
+
+  - alias: MyŠkoda zurück auf Normalintervall
+    triggers:
+      - trigger: state
+        entity_id: binary_sensor.my_enyaq_charging
+        to: "off"
+        for: "00:10:00"
+    actions:
+      - action: number.set_value
+        target:
+          entity_id: number.myskoda_public_api_abfrageintervall
+        data:
+          value: 30
+```
+
+Ein **verkürztes** Intervall kostet eine Anfrage, weil Home Assistant den Timer sonst erst
+nach dem bereits eingeplanten Poll neu stellt. Ein **verlängertes** ist gratis — der nächste,
+noch im kurzen Takt fällige Poll stellt den Timer selbst um. Ist das Kontingent fast leer,
+wird auch das Verkürzen nicht sofort scharf gestellt, sondern beim nächsten Poll.
+
+Ein Haken bleibt: Wird der Ladebeginn aus einer MyŠkoda-Entität getriggert, erfährst du
+davon frühestens beim nächsten Poll — bei 30 Minuten also bis zu 30 Minuten zu spät. Wenn du
+eine Quelle außerhalb der Integration hast, die den Ladebeginn sofort kennt — Wallbox,
+Energiezähler oder eine eigene Ladeüberwachung — nimm die als Auslöser. Dann greift das
+kurze Intervall ab der ersten Minute.
 
 ## Rate-Limit — bitte lesen
 

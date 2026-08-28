@@ -494,6 +494,9 @@
       },
       "auxiliary_heating_duration_setting": {
         "name": "Laufzeit Standheizung"
+      },
+      "polling_interval": {
+        "name": "Abfrageintervall"
       }
     },
     "select": {

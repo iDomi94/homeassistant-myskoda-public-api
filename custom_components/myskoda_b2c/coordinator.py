@@ -201,14 +201,29 @@ class MySkodaCoordinator(DataUpdateCoordinator[dict[str, VehicleState]]):
         """Apply changed options to a running coordinator.
 
         Assigning ``update_interval`` only stores the value; Home Assistant
-        re-arms the timer at the end of the next refresh. Requesting one right
-        away makes a shortened interval take effect immediately instead of
-        after the poll that was already scheduled, at the cost of one request.
+        re-arms the timer at the end of the next refresh. A shortened interval
+        would therefore wait for the poll that was already scheduled, so one is
+        requested right away. Lengthening needs no request: the next poll is
+        still due at the old, shorter interval and re-arms the timer then.
         """
         interval = timedelta(minutes=self.poll_interval)
-        if interval == self.update_interval:
+        previous = self.update_interval
+        if interval == previous:
             return
+
         self.update_interval = interval
+        self.async_update_listeners()
+
+        if previous is None or interval >= previous:
+            return
+
+        remaining = self.api.rate_limit.remaining
+        if remaining is not None and remaining < REFRESH_AFTER_COMMAND_MIN_QUOTA:
+            _LOGGER.debug(
+                "Not re-arming the timer now, only %s requests left in the quota",
+                remaining,
+            )
+            return
         await self.async_request_refresh()
 
     # --- Commands ------------------------------------------------------------

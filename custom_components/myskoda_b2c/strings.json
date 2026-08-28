@@ -494,6 +494,9 @@
       },
       "auxiliary_heating_duration_setting": {
         "name": "Auxiliary heating duration"
+      },
+      "polling_interval": {
+        "name": "Polling interval"
       }
     },
     "select": {
