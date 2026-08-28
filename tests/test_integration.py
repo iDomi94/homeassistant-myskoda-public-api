@@ -235,7 +235,7 @@ async def test_sensor_values(hass: HomeAssistant, api) -> None:
 
     assert hass.states.get("sensor.my_enyaq_mileage").state == "12753"
     assert hass.states.get("sensor.my_enyaq_battery").state == "71"
-    assert hass.states.get("sensor.my_enyaq_charging_state").state == "CHARGING"
+    assert hass.states.get("sensor.my_enyaq_charging_state").state == "charging"
     assert hass.states.get("sensor.my_enyaq_charging_power").state == "11.0"
     assert hass.states.get("sensor.my_enyaq_parking_address").state.startswith(
         "Prazska"
@@ -255,7 +255,7 @@ async def test_unsupported_value_is_unknown(hass: HomeAssistant, api) -> None:
     """UNSUPPORTED is a missing reading, not a state."""
     await setup_integration(hass, api, vins=(VIN_ICE,))
     assert hass.states.get("sensor.my_octavia_windows").state == STATE_UNKNOWN
-    assert hass.states.get("sensor.my_octavia_doors").state == "OPEN"
+    assert hass.states.get("sensor.my_octavia_doors").state == "open"
 
 
 async def test_binary_sensors(hass: HomeAssistant, api) -> None:

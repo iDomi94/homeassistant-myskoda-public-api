@@ -74,11 +74,11 @@
       "car_type": {
         "name": "Fahrzeugtyp",
         "state": {
-          "HYBRID": "Hybrid",
-          "GASOLINE": "Benzin",
-          "DIESEL": "Diesel",
-          "CNG": "Erdgas",
-          "LPG": "Autogas"
+          "hybrid": "Hybrid",
+          "gasoline": "Benzin",
+          "diesel": "Diesel",
+          "cng": "Erdgas",
+          "lpg": "Autogas"
         }
       },
       "total_range": {
@@ -90,11 +90,11 @@
       "primary_engine_type": {
         "name": "Primärer Antrieb",
         "state": {
-          "ELECTRIC": "Elektrisch",
-          "GASOLINE": "Benzin",
-          "DIESEL": "Diesel",
-          "CNG": "Erdgas",
-          "LPG": "Autogas"
+          "electric": "Elektrisch",
+          "gasoline": "Benzin",
+          "diesel": "Diesel",
+          "cng": "Erdgas",
+          "lpg": "Autogas"
         }
       },
       "primary_engine_range": {
@@ -109,11 +109,11 @@
       "secondary_engine_type": {
         "name": "Sekundärer Antrieb",
         "state": {
-          "ELECTRIC": "Elektrisch",
-          "GASOLINE": "Benzin",
-          "DIESEL": "Diesel",
-          "CNG": "Erdgas",
-          "LPG": "Autogas"
+          "electric": "Elektrisch",
+          "gasoline": "Benzin",
+          "diesel": "Diesel",
+          "cng": "Erdgas",
+          "lpg": "Autogas"
         }
       },
       "secondary_engine_range": {
@@ -131,20 +131,20 @@
       "charging_state": {
         "name": "Ladezustand",
         "state": {
-          "CONNECT_CABLE": "Kabel anschließen",
-          "CHARGING": "Lädt",
-          "CONSERVING": "Erhaltungsladung",
-          "READY_FOR_CHARGING": "Bereit zum Laden",
-          "DISCHARGING": "Entlädt",
-          "CHARGING_INTERRUPTED": "Laden unterbrochen"
+          "connect_cable": "Kabel anschließen",
+          "charging": "Lädt",
+          "conserving": "Erhaltungsladung",
+          "ready_for_charging": "Bereit zum Laden",
+          "discharging": "Entlädt",
+          "charging_interrupted": "Laden unterbrochen"
         }
       },
       "charge_type": {
         "name": "Ladeart",
         "state": {
-          "AC": "AC",
-          "DC": "DC",
-          "OFF": "Aus"
+          "ac": "AC",
+          "dc": "DC",
+          "off": "Aus"
         }
       },
       "charging_power": {
@@ -174,34 +174,34 @@
       "preferred_charge_mode": {
         "name": "Bevorzugter Lademodus",
         "state": {
-          "MANUAL": "Manuell",
-          "TIMER": "Timer",
-          "TIMER_CHARGING_WITH_CLIMATISATION": "Timer mit Klimatisierung",
-          "PREFERRED_CHARGING_TIMES": "Bevorzugte Ladezeiten",
-          "ONLY_OWN_CURRENT": "Nur eigener Strom",
-          "IMMEDIATE_DISCHARGING": "Sofortiges Entladen",
-          "HOME_STORAGE_CHARGING": "Laden aus Hausspeicher"
+          "manual": "Manuell",
+          "timer": "Timer",
+          "timer_charging_with_climatisation": "Timer mit Klimatisierung",
+          "preferred_charging_times": "Bevorzugte Ladezeiten",
+          "only_own_current": "Nur eigener Strom",
+          "immediate_discharging": "Sofortiges Entladen",
+          "home_storage_charging": "Laden aus Hausspeicher"
         }
       },
       "charging_care_mode": {
         "name": "Batterieschonung",
         "state": {
-          "ACTIVATED": "Aktiviert",
-          "DEACTIVATED": "Deaktiviert"
+          "activated": "Aktiviert",
+          "deactivated": "Deaktiviert"
         }
       },
       "auto_unlock_plug": {
         "name": "Stecker automatisch entriegeln",
         "state": {
-          "PERMANENT": "Dauerhaft",
-          "OFF": "Aus"
+          "permanent": "Dauerhaft",
+          "off": "Aus"
         }
       },
       "max_charge_current": {
         "name": "Maximaler Ladestrom",
         "state": {
-          "REDUCED": "Reduziert",
-          "MAXIMUM": "Maximal"
+          "reduced": "Reduziert",
+          "maximum": "Maximal"
         }
       },
       "max_charge_current_ampere": {
@@ -213,12 +213,12 @@
       "air_conditioning_state": {
         "name": "Klimatisierungsstatus",
         "state": {
-          "OFF": "Aus",
-          "COOLING": "Kühlt",
-          "HEATING": "Heizt",
-          "HEATING_AUXILIARY": "Heizt mit Standheizung",
-          "VENTILATION": "Lüftung",
-          "COMPLETED": "Abgeschlossen"
+          "off": "Aus",
+          "cooling": "Kühlt",
+          "heating": "Heizt",
+          "heating_auxiliary": "Heizt mit Standheizung",
+          "ventilation": "Lüftung",
+          "completed": "Abgeschlossen"
         }
       },
       "air_conditioning_target_temperature": {
@@ -230,15 +230,15 @@
       "window_heating_front": {
         "name": "Frontscheibenheizung",
         "state": {
-          "ON": "An",
-          "OFF": "Aus"
+          "on": "An",
+          "off": "Aus"
         }
       },
       "window_heating_rear": {
         "name": "Heckscheibenheizung",
         "state": {
-          "ON": "An",
-          "OFF": "Aus"
+          "on": "An",
+          "off": "Aus"
         }
       },
       "air_conditioning_captured_at": {
@@ -247,17 +247,17 @@
       "auxiliary_heating_state": {
         "name": "Status Standheizung",
         "state": {
-          "OFF": "Aus",
-          "PREHEATING": "Vorheizen",
-          "HEATING_AUXILIARY": "Heizt",
-          "VENTILATION": "Lüftung"
+          "off": "Aus",
+          "preheating": "Vorheizen",
+          "heating_auxiliary": "Heizt",
+          "ventilation": "Lüftung"
         }
       },
       "auxiliary_heating_start_mode": {
         "name": "Startmodus Standheizung",
         "state": {
-          "HEATING": "Heizen",
-          "VENTILATION": "Lüften"
+          "heating": "Heizen",
+          "ventilation": "Lüften"
         }
       },
       "auxiliary_heating_duration": {
@@ -275,9 +275,9 @@
       "active_ventilation_state": {
         "name": "Status Aktivlüftung",
         "state": {
-          "OFF": "Aus",
-          "PREHEATING": "Vorbereiten",
-          "VENTILATION": "Lüftung"
+          "off": "Aus",
+          "preheating": "Vorbereiten",
+          "ventilation": "Lüftung"
         }
       },
       "active_ventilation_duration": {
@@ -289,66 +289,66 @@
       "doors_locked_state": {
         "name": "Verriegelung Türen und Kofferraum",
         "state": {
-          "YES": "Verriegelt",
-          "NO": "Entriegelt",
-          "OPENED": "Geöffnet",
-          "TRUNK_OPENED": "Kofferraum offen"
+          "yes": "Verriegelt",
+          "no": "Entriegelt",
+          "opened": "Geöffnet",
+          "trunk_opened": "Kofferraum offen"
         }
       },
       "locked_state": {
         "name": "Verriegelungsstatus",
         "state": {
-          "YES": "Verriegelt",
-          "NO": "Entriegelt"
+          "yes": "Verriegelt",
+          "no": "Entriegelt"
         }
       },
       "doors_state": {
         "name": "Türen",
         "state": {
-          "OPEN": "Offen",
-          "CLOSED": "Geschlossen"
+          "open": "Offen",
+          "closed": "Geschlossen"
         }
       },
       "windows_state": {
         "name": "Fenster",
         "state": {
-          "OPEN": "Offen",
-          "CLOSED": "Geschlossen"
+          "open": "Offen",
+          "closed": "Geschlossen"
         }
       },
       "lights_state": {
         "name": "Licht",
         "state": {
-          "ON": "An",
-          "OFF": "Aus"
+          "on": "An",
+          "off": "Aus"
         }
       },
       "reliable_lock_status": {
         "name": "Zuverlässiger Verriegelungsstatus",
         "state": {
-          "LOCKED": "Verriegelt",
-          "UNLOCKED": "Entriegelt"
+          "locked": "Verriegelt",
+          "unlocked": "Entriegelt"
         }
       },
       "sunroof_state": {
         "name": "Schiebedach",
         "state": {
-          "OPEN": "Offen",
-          "CLOSED": "Geschlossen"
+          "open": "Offen",
+          "closed": "Geschlossen"
         }
       },
       "trunk_state": {
         "name": "Kofferraum",
         "state": {
-          "OPEN": "Offen",
-          "CLOSED": "Geschlossen"
+          "open": "Offen",
+          "closed": "Geschlossen"
         }
       },
       "bonnet_state": {
         "name": "Motorhaube",
         "state": {
-          "OPEN": "Offen",
-          "CLOSED": "Geschlossen"
+          "open": "Offen",
+          "closed": "Geschlossen"
         }
       },
       "status_captured_at": {
@@ -357,8 +357,8 @@
       "parking_state": {
         "name": "Parkstatus",
         "state": {
-          "IN_MOTION": "In Bewegung",
-          "PARKED": "Geparkt"
+          "in_motion": "In Bewegung",
+          "parked": "Geparkt"
         }
       },
       "parking_address": {

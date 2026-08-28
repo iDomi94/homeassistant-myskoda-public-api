@@ -88,51 +88,51 @@ def _temperature_unit(path: str) -> Callable[[VehicleState], str | None]:
 # Closed vocabularies. Values outside them are surfaced as ``raw_value``
 # attributes instead of breaking the enum device class -- the API documents that
 # new values may be added over time.
-DOORS_LOCKED_OPTIONS = ["YES", "NO", "OPENED", "TRUNK_OPENED"]
-LOCKED_OPTIONS = ["YES", "NO"]
-OPEN_CLOSED_OPTIONS = ["OPEN", "CLOSED"]
-ON_OFF_OPTIONS = ["ON", "OFF"]
-RELIABLE_LOCK_OPTIONS = ["LOCKED", "UNLOCKED"]
+DOORS_LOCKED_OPTIONS = ["yes", "no", "opened", "trunk_opened"]
+LOCKED_OPTIONS = ["yes", "no"]
+OPEN_CLOSED_OPTIONS = ["open", "closed"]
+ON_OFF_OPTIONS = ["on", "off"]
+RELIABLE_LOCK_OPTIONS = ["locked", "unlocked"]
 CHARGING_STATE_OPTIONS = [
-    "CONNECT_CABLE",
-    "CHARGING",
-    "CONSERVING",
-    "READY_FOR_CHARGING",
-    "DISCHARGING",
-    "CHARGING_INTERRUPTED",
+    "connect_cable",
+    "charging",
+    "conserving",
+    "ready_for_charging",
+    "discharging",
+    "charging_interrupted",
 ]
-CHARGE_TYPE_OPTIONS = ["AC", "DC", "OFF"]
-CAR_TYPE_OPTIONS = ["HYBRID", "GASOLINE", "DIESEL", "CNG", "LPG"]
-ENGINE_TYPE_OPTIONS = ["ELECTRIC", "GASOLINE", "DIESEL", "CNG", "LPG"]
+CHARGE_TYPE_OPTIONS = ["ac", "dc", "off"]
+CAR_TYPE_OPTIONS = ["hybrid", "gasoline", "diesel", "cng", "lpg"]
+ENGINE_TYPE_OPTIONS = ["electric", "gasoline", "diesel", "cng", "lpg"]
 AIR_CONDITIONING_STATE_OPTIONS = [
-    "OFF",
-    "COOLING",
-    "HEATING",
-    "HEATING_AUXILIARY",
-    "VENTILATION",
-    "COMPLETED",
+    "off",
+    "cooling",
+    "heating",
+    "heating_auxiliary",
+    "ventilation",
+    "completed",
 ]
 AUXILIARY_HEATING_STATE_OPTIONS = [
-    "OFF",
-    "PREHEATING",
-    "HEATING_AUXILIARY",
-    "VENTILATION",
+    "off",
+    "preheating",
+    "heating_auxiliary",
+    "ventilation",
 ]
-ACTIVE_VENTILATION_STATE_OPTIONS = ["OFF", "PREHEATING", "VENTILATION"]
-START_MODE_OPTIONS = ["HEATING", "VENTILATION"]
-PARKING_STATE_OPTIONS = ["IN_MOTION", "PARKED"]
+ACTIVE_VENTILATION_STATE_OPTIONS = ["off", "preheating", "ventilation"]
+START_MODE_OPTIONS = ["heating", "ventilation"]
+PARKING_STATE_OPTIONS = ["in_motion", "parked"]
 CHARGE_MODE_OPTIONS = [
-    "MANUAL",
-    "TIMER",
-    "TIMER_CHARGING_WITH_CLIMATISATION",
-    "PREFERRED_CHARGING_TIMES",
-    "ONLY_OWN_CURRENT",
-    "IMMEDIATE_DISCHARGING",
-    "HOME_STORAGE_CHARGING",
+    "manual",
+    "timer",
+    "timer_charging_with_climatisation",
+    "preferred_charging_times",
+    "only_own_current",
+    "immediate_discharging",
+    "home_storage_charging",
 ]
-CARE_MODE_OPTIONS = ["ACTIVATED", "DEACTIVATED"]
-PLUG_UNLOCK_OPTIONS = ["PERMANENT", "OFF"]
-MAX_CHARGE_CURRENT_OPTIONS = ["REDUCED", "MAXIMUM"]
+CARE_MODE_OPTIONS = ["activated", "deactivated"]
+PLUG_UNLOCK_OPTIONS = ["permanent", "off"]
+MAX_CHARGE_CURRENT_OPTIONS = ["reduced", "maximum"]
 
 
 def _enum(key: str, options: list[str], **kwargs: Any) -> MySkodaSensorDescription:
@@ -826,12 +826,18 @@ class MySkodaSensor(MySkodaVehicleEntity, SensorEntity):
         """
         value = self.entity_description.value_fn(self.vehicle)
         options = self.entity_description.options
-        if options is not None and value is not None and value not in options:
+        if options is None or value is None:
+            return value
+
+        # The API reports SCREAMING_SNAKE_CASE; Home Assistant enum states and
+        # their translation keys are lower case.
+        normalised = str(value).lower()
+        if normalised not in options:
             _LOGGER.debug(
                 "Unexpected value %r for %s; not in %s", value, self.entity_id, options
             )
             return None
-        return value
+        return normalised
 
     @property
     def native_unit_of_measurement(self) -> str | None:
@@ -847,7 +853,7 @@ class MySkodaSensor(MySkodaVehicleEntity, SensorEntity):
         options = self.entity_description.options
         if options is not None:
             raw = self.entity_description.value_fn(self.vehicle)
-            if raw is not None and raw not in options:
+            if raw is not None and str(raw).lower() not in options:
                 attributes = {**attributes, "raw_value": raw}
         return attributes or None
 

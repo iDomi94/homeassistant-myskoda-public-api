@@ -74,11 +74,11 @@
       "car_type": {
         "name": "Car type",
         "state": {
-          "HYBRID": "Hybrid",
-          "GASOLINE": "Gasoline",
-          "DIESEL": "Diesel",
-          "CNG": "CNG",
-          "LPG": "LPG"
+          "hybrid": "Hybrid",
+          "gasoline": "Gasoline",
+          "diesel": "Diesel",
+          "cng": "CNG",
+          "lpg": "LPG"
         }
       },
       "total_range": {
@@ -90,11 +90,11 @@
       "primary_engine_type": {
         "name": "Primary engine type",
         "state": {
-          "ELECTRIC": "Electric",
-          "GASOLINE": "Gasoline",
-          "DIESEL": "Diesel",
-          "CNG": "CNG",
-          "LPG": "LPG"
+          "electric": "Electric",
+          "gasoline": "Gasoline",
+          "diesel": "Diesel",
+          "cng": "CNG",
+          "lpg": "LPG"
         }
       },
       "primary_engine_range": {
@@ -109,11 +109,11 @@
       "secondary_engine_type": {
         "name": "Secondary engine type",
         "state": {
-          "ELECTRIC": "Electric",
-          "GASOLINE": "Gasoline",
-          "DIESEL": "Diesel",
-          "CNG": "CNG",
-          "LPG": "LPG"
+          "electric": "Electric",
+          "gasoline": "Gasoline",
+          "diesel": "Diesel",
+          "cng": "CNG",
+          "lpg": "LPG"
         }
       },
       "secondary_engine_range": {
@@ -131,20 +131,20 @@
       "charging_state": {
         "name": "Charging state",
         "state": {
-          "CONNECT_CABLE": "Connect cable",
-          "CHARGING": "Charging",
-          "CONSERVING": "Conserving",
-          "READY_FOR_CHARGING": "Ready for charging",
-          "DISCHARGING": "Discharging",
-          "CHARGING_INTERRUPTED": "Charging interrupted"
+          "connect_cable": "Connect cable",
+          "charging": "Charging",
+          "conserving": "Conserving",
+          "ready_for_charging": "Ready for charging",
+          "discharging": "Discharging",
+          "charging_interrupted": "Charging interrupted"
         }
       },
       "charge_type": {
         "name": "Charge type",
         "state": {
-          "AC": "AC",
-          "DC": "DC",
-          "OFF": "Off"
+          "ac": "AC",
+          "dc": "DC",
+          "off": "Off"
         }
       },
       "charging_power": {
@@ -174,34 +174,34 @@
       "preferred_charge_mode": {
         "name": "Preferred charge mode",
         "state": {
-          "MANUAL": "Manual",
-          "TIMER": "Timer",
-          "TIMER_CHARGING_WITH_CLIMATISATION": "Timer with climatisation",
-          "PREFERRED_CHARGING_TIMES": "Preferred charging times",
-          "ONLY_OWN_CURRENT": "Own current only",
-          "IMMEDIATE_DISCHARGING": "Immediate discharging",
-          "HOME_STORAGE_CHARGING": "Home storage charging"
+          "manual": "Manual",
+          "timer": "Timer",
+          "timer_charging_with_climatisation": "Timer with climatisation",
+          "preferred_charging_times": "Preferred charging times",
+          "only_own_current": "Own current only",
+          "immediate_discharging": "Immediate discharging",
+          "home_storage_charging": "Home storage charging"
         }
       },
       "charging_care_mode": {
         "name": "Battery care mode",
         "state": {
-          "ACTIVATED": "Activated",
-          "DEACTIVATED": "Deactivated"
+          "activated": "Activated",
+          "deactivated": "Deactivated"
         }
       },
       "auto_unlock_plug": {
         "name": "Auto unlock plug",
         "state": {
-          "PERMANENT": "Permanent",
-          "OFF": "Off"
+          "permanent": "Permanent",
+          "off": "Off"
         }
       },
       "max_charge_current": {
         "name": "Maximum charge current",
         "state": {
-          "REDUCED": "Reduced",
-          "MAXIMUM": "Maximum"
+          "reduced": "Reduced",
+          "maximum": "Maximum"
         }
       },
       "max_charge_current_ampere": {
@@ -213,12 +213,12 @@
       "air_conditioning_state": {
         "name": "Air conditioning state",
         "state": {
-          "OFF": "Off",
-          "COOLING": "Cooling",
-          "HEATING": "Heating",
-          "HEATING_AUXILIARY": "Heating with auxiliary heater",
-          "VENTILATION": "Ventilation",
-          "COMPLETED": "Completed"
+          "off": "Off",
+          "cooling": "Cooling",
+          "heating": "Heating",
+          "heating_auxiliary": "Heating with auxiliary heater",
+          "ventilation": "Ventilation",
+          "completed": "Completed"
         }
       },
       "air_conditioning_target_temperature": {
@@ -230,15 +230,15 @@
       "window_heating_front": {
         "name": "Front window heating",
         "state": {
-          "ON": "On",
-          "OFF": "Off"
+          "on": "On",
+          "off": "Off"
         }
       },
       "window_heating_rear": {
         "name": "Rear window heating",
         "state": {
-          "ON": "On",
-          "OFF": "Off"
+          "on": "On",
+          "off": "Off"
         }
       },
       "air_conditioning_captured_at": {
@@ -247,17 +247,17 @@
       "auxiliary_heating_state": {
         "name": "Auxiliary heating state",
         "state": {
-          "OFF": "Off",
-          "PREHEATING": "Preheating",
-          "HEATING_AUXILIARY": "Heating",
-          "VENTILATION": "Ventilation"
+          "off": "Off",
+          "preheating": "Preheating",
+          "heating_auxiliary": "Heating",
+          "ventilation": "Ventilation"
         }
       },
       "auxiliary_heating_start_mode": {
         "name": "Auxiliary heating start mode",
         "state": {
-          "HEATING": "Heating",
-          "VENTILATION": "Ventilation"
+          "heating": "Heating",
+          "ventilation": "Ventilation"
         }
       },
       "auxiliary_heating_duration": {
@@ -275,9 +275,9 @@
       "active_ventilation_state": {
         "name": "Active ventilation state",
         "state": {
-          "OFF": "Off",
-          "PREHEATING": "Preheating",
-          "VENTILATION": "Ventilation"
+          "off": "Off",
+          "preheating": "Preheating",
+          "ventilation": "Ventilation"
         }
       },
       "active_ventilation_duration": {
@@ -289,66 +289,66 @@
       "doors_locked_state": {
         "name": "Doors and trunk lock state",
         "state": {
-          "YES": "Locked",
-          "NO": "Unlocked",
-          "OPENED": "Opened",
-          "TRUNK_OPENED": "Trunk opened"
+          "yes": "Locked",
+          "no": "Unlocked",
+          "opened": "Opened",
+          "trunk_opened": "Trunk opened"
         }
       },
       "locked_state": {
         "name": "Lock state",
         "state": {
-          "YES": "Locked",
-          "NO": "Unlocked"
+          "yes": "Locked",
+          "no": "Unlocked"
         }
       },
       "doors_state": {
         "name": "Doors",
         "state": {
-          "OPEN": "Open",
-          "CLOSED": "Closed"
+          "open": "Open",
+          "closed": "Closed"
         }
       },
       "windows_state": {
         "name": "Windows",
         "state": {
-          "OPEN": "Open",
-          "CLOSED": "Closed"
+          "open": "Open",
+          "closed": "Closed"
         }
       },
       "lights_state": {
         "name": "Lights",
         "state": {
-          "ON": "On",
-          "OFF": "Off"
+          "on": "On",
+          "off": "Off"
         }
       },
       "reliable_lock_status": {
         "name": "Reliable lock status",
         "state": {
-          "LOCKED": "Locked",
-          "UNLOCKED": "Unlocked"
+          "locked": "Locked",
+          "unlocked": "Unlocked"
         }
       },
       "sunroof_state": {
         "name": "Sunroof",
         "state": {
-          "OPEN": "Open",
-          "CLOSED": "Closed"
+          "open": "Open",
+          "closed": "Closed"
         }
       },
       "trunk_state": {
         "name": "Trunk",
         "state": {
-          "OPEN": "Open",
-          "CLOSED": "Closed"
+          "open": "Open",
+          "closed": "Closed"
         }
       },
       "bonnet_state": {
         "name": "Bonnet",
         "state": {
-          "OPEN": "Open",
-          "CLOSED": "Closed"
+          "open": "Open",
+          "closed": "Closed"
         }
       },
       "status_captured_at": {
@@ -357,8 +357,8 @@
       "parking_state": {
         "name": "Parking state",
         "state": {
-          "IN_MOTION": "In motion",
-          "PARKED": "Parked"
+          "in_motion": "In motion",
+          "parked": "Parked"
         }
       },
       "parking_address": {

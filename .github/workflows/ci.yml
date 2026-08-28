@@ -21,6 +21,9 @@ jobs:
       - uses: hacs/action@main
         with:
           category: integration
+          # Brand assets live in home-assistant/brands, which only accepts a
+          # public repository. Drop this once the repository is published.
+          ignore: brands
 
   lint-and-test:
     name: Lint and test
