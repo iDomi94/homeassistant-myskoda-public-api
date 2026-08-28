@@ -17,6 +17,7 @@ from custom_components.myskoda_b2c.const import (
     CONF_REFRESH_AFTER_COMMAND,
     CONF_SPIN,
     DOMAIN,
+    MANUAL_REFRESH_COOLDOWN,
     REFRESH_AFTER_COMMAND_DELAY,
 )
 
@@ -32,6 +33,15 @@ def sent_body(api, vin: str, path: str) -> dict:
         if key[0] == "POST" and str(key[1]).endswith(f"/{vin}/{path}"):
             return calls[-1].kwargs.get("json") or {}
     raise AssertionError(f"{path} was not called")
+
+
+def request_count(api) -> int:
+    """Total number of requests recorded so far.
+
+    ``aioresponses.clear()`` resets the registered responses but keeps the
+    history, so callers compare against an earlier snapshot.
+    """
+    return sum(len(calls) for calls in api.requests.values())
 
 
 def was_called(api, vin: str, path: str) -> bool:
@@ -405,3 +415,28 @@ async def test_unload_entry(hass: HomeAssistant, api) -> None:
     assert await hass.config_entries.async_unload(entry.entry_id)
     await hass.async_block_till_done()
     assert hass.states.get("sensor.my_enyaq_mileage").state == STATE_UNAVAILABLE
+
+
+async def test_manual_refresh_is_throttled(hass: HomeAssistant, api) -> None:
+    """Spamming the refresh action must not burn the hourly quota."""
+    entry = await setup_integration(hass, api)
+    coordinator = entry.runtime_data
+    api.clear()
+    mock_vehicle(api, VIN_BEV, BEV)
+
+    before = request_count(api)
+
+    for _ in range(10):
+        await hass.services.async_call(DOMAIN, "refresh", {}, blocking=True)
+    await hass.async_block_till_done()
+
+    # The first request goes through immediately, the rest are debounced away.
+    assert request_count(api) - before == 1
+
+    # After the cooldown a further refresh is allowed again.
+    async_fire_time_changed(
+        hass, dt_util.utcnow() + timedelta(seconds=MANUAL_REFRESH_COOLDOWN + 5)
+    )
+    await hass.async_block_till_done()
+    assert request_count(api) - before > 1
+    assert coordinator.last_update_success

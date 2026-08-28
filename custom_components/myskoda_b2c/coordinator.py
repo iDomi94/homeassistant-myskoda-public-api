@@ -12,6 +12,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import ConfigEntryAuthFailed, HomeAssistantError
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.debounce import Debouncer
 from homeassistant.helpers.event import async_call_later
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
@@ -40,6 +41,7 @@ from .const import (
     DEFAULT_REFRESH_AFTER_COMMAND,
     DEFAULT_TARGET_TEMPERATURE,
     DOMAIN,
+    MANUAL_REFRESH_COOLDOWN,
     REFRESH_AFTER_COMMAND_DELAY,
     REFRESH_AFTER_COMMAND_MIN_QUOTA,
 )
@@ -109,6 +111,16 @@ class MySkodaCoordinator(DataUpdateCoordinator[dict[str, VehicleState]]):
             config_entry=entry,
             update_interval=timedelta(
                 minutes=entry.options.get(CONF_POLL_INTERVAL, DEFAULT_POLL_INTERVAL)
+            ),
+            # Manual refreshes -- the refresh button, the refresh action and the
+            # poll after a command -- share the 20 requests per hour with the
+            # scheduled polling, so they are spaced further apart than Home
+            # Assistant's ten second default.
+            request_refresh_debouncer=Debouncer(
+                hass,
+                _LOGGER,
+                cooldown=MANUAL_REFRESH_COOLDOWN,
+                immediate=True,
             ),
         )
 
