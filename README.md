@@ -207,14 +207,13 @@ wiederhergestellt.
 `stop_air_conditioning` · `start_auxiliary_heating` · `stop_auxiliary_heating` ·
 `start_active_ventilation` · `stop_active_ventilation`
 
-Ziel wahlweise über `target` (Gerät/Entität) oder das Feld `vin`. Ohne Ziel gilt die Aktion
-für alle konfigurierten Fahrzeuge.
+Ziel wahlweise über das Feld `device_id` oder `vin`. Ohne Ziel gilt die Aktion für alle
+konfigurierten Fahrzeuge.
 
 ```yaml
 action: myskoda_publicapi.start_air_conditioning
-target:
-  device_id: <Fahrzeug>
 data:
+  device_id: <Fahrzeug>
   temperature: 22
   without_external_power: true
 ```

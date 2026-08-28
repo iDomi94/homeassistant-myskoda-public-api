@@ -553,6 +553,10 @@
       "name": "Aktualisieren",
       "description": "Fragt die MyŠkoda-API sofort ab. Zählt gegen das Stundenkontingent.",
       "fields": {
+        "device_id": {
+          "name": "Gerät",
+          "description": "Die Fahrzeuge, auf die die Aktion wirkt. Standard: alle eingerichteten Fahrzeuge."
+        },
         "vin": {
           "name": "FIN",
           "description": "Aktion auf diese FIN begrenzen."
@@ -563,6 +567,10 @@
       "name": "Laden starten",
       "description": "Startet den Ladevorgang.",
       "fields": {
+        "device_id": {
+          "name": "Gerät",
+          "description": "Die Fahrzeuge, auf die die Aktion wirkt. Standard: alle eingerichteten Fahrzeuge."
+        },
         "vin": {
           "name": "FIN",
           "description": "Aktion auf diese FIN begrenzen."
@@ -573,6 +581,10 @@
       "name": "Laden stoppen",
       "description": "Stoppt den Ladevorgang.",
       "fields": {
+        "device_id": {
+          "name": "Gerät",
+          "description": "Die Fahrzeuge, auf die die Aktion wirkt. Standard: alle eingerichteten Fahrzeuge."
+        },
         "vin": {
           "name": "FIN",
           "description": "Aktion auf diese FIN begrenzen."
@@ -583,6 +595,10 @@
       "name": "Klimatisierung starten",
       "description": "Startet die Klimatisierung auf eine Zieltemperatur.",
       "fields": {
+        "device_id": {
+          "name": "Gerät",
+          "description": "Die Fahrzeuge, auf die die Aktion wirkt. Standard: alle eingerichteten Fahrzeuge."
+        },
         "vin": {
           "name": "FIN",
           "description": "Aktion auf diese FIN begrenzen."
@@ -601,6 +617,10 @@
       "name": "Klimatisierung stoppen",
       "description": "Stoppt die Klimatisierung.",
       "fields": {
+        "device_id": {
+          "name": "Gerät",
+          "description": "Die Fahrzeuge, auf die die Aktion wirkt. Standard: alle eingerichteten Fahrzeuge."
+        },
         "vin": {
           "name": "FIN",
           "description": "Aktion auf diese FIN begrenzen."
@@ -611,6 +631,10 @@
       "name": "Standheizung starten",
       "description": "Startet die Standheizung. Erfordert die S-PIN.",
       "fields": {
+        "device_id": {
+          "name": "Gerät",
+          "description": "Die Fahrzeuge, auf die die Aktion wirkt. Standard: alle eingerichteten Fahrzeuge."
+        },
         "vin": {
           "name": "FIN",
           "description": "Aktion auf diese FIN begrenzen."
@@ -637,6 +661,10 @@
       "name": "Standheizung stoppen",
       "description": "Stoppt die Standheizung.",
       "fields": {
+        "device_id": {
+          "name": "Gerät",
+          "description": "Die Fahrzeuge, auf die die Aktion wirkt. Standard: alle eingerichteten Fahrzeuge."
+        },
         "vin": {
           "name": "FIN",
           "description": "Aktion auf diese FIN begrenzen."
@@ -647,6 +675,10 @@
       "name": "Aktivlüftung starten",
       "description": "Startet die Aktivlüftung.",
       "fields": {
+        "device_id": {
+          "name": "Gerät",
+          "description": "Die Fahrzeuge, auf die die Aktion wirkt. Standard: alle eingerichteten Fahrzeuge."
+        },
         "vin": {
           "name": "FIN",
           "description": "Aktion auf diese FIN begrenzen."
@@ -657,6 +689,10 @@
       "name": "Aktivlüftung stoppen",
       "description": "Stoppt die Aktivlüftung.",
       "fields": {
+        "device_id": {
+          "name": "Gerät",
+          "description": "Die Fahrzeuge, auf die die Aktion wirkt. Standard: alle eingerichteten Fahrzeuge."
+        },
         "vin": {
           "name": "FIN",
           "description": "Aktion auf diese FIN begrenzen."

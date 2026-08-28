@@ -54,3 +54,38 @@ def test_services_and_icons_agree() -> None:
     strings = json.loads((COMPONENT / "strings.json").read_text(encoding="utf-8"))
     assert set(icons["services"]) == services
     assert set(strings["services"]) == services
+
+
+def test_every_service_field_is_translated() -> None:
+    """An untranslated field fails the hassfest SERVICES check."""
+    import yaml
+
+    services = yaml.safe_load((COMPONENT / "services.yaml").read_text())
+    strings = json.loads((COMPONENT / "strings.json").read_text(encoding="utf-8"))
+
+    problems = []
+    for name, body in services.items():
+        declared = set(body.get("fields", {}))
+        translated = set(strings["services"][name].get("fields", {}))
+        if missing := declared - translated:
+            problems.append(f"{name}: untranslated {sorted(missing)}")
+        if extra := translated - declared:
+            problems.append(f"{name}: translated but absent {sorted(extra)}")
+    assert not problems, problems
+
+
+def test_no_service_uses_a_device_filter_on_target() -> None:
+    """Targets do not accept device filters; use a device selector field.
+
+    Home Assistant rejects `target: {device: {integration: ...}}`, so the
+    actions carry a device_id field instead.
+    """
+    import yaml
+
+    services = yaml.safe_load((COMPONENT / "services.yaml").read_text())
+    offenders = [
+        name
+        for name, body in services.items()
+        if isinstance(body.get("target"), dict) and "device" in body["target"]
+    ]
+    assert not offenders, offenders

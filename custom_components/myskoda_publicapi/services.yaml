@@ -1,12 +1,18 @@
 # Actions exposed by the MySkoda PublicAPI integration.
 # Every call reaches the MyŠkoda Public API and counts against the hourly quota
 # of 20 requests per API key.
+#
+# Targeting uses a device_id field rather than `target:`, because a target does
+# not accept a device filter -- see the hassfest SERVICES check.
 
 refresh:
-  target:
-    device:
-      integration: myskoda_publicapi
   fields:
+    device_id:
+      required: false
+      selector:
+        device:
+          integration: myskoda_publicapi
+          multiple: true
     vin:
       required: false
       example: TMBJB9NY5RF999999
@@ -14,10 +20,13 @@ refresh:
         text:
 
 start_charging:
-  target:
-    device:
-      integration: myskoda_publicapi
   fields:
+    device_id:
+      required: false
+      selector:
+        device:
+          integration: myskoda_publicapi
+          multiple: true
     vin:
       required: false
       example: TMBJB9NY5RF999999
@@ -25,10 +34,13 @@ start_charging:
         text:
 
 stop_charging:
-  target:
-    device:
-      integration: myskoda_publicapi
   fields:
+    device_id:
+      required: false
+      selector:
+        device:
+          integration: myskoda_publicapi
+          multiple: true
     vin:
       required: false
       example: TMBJB9NY5RF999999
@@ -36,10 +48,13 @@ stop_charging:
         text:
 
 start_air_conditioning:
-  target:
-    device:
-      integration: myskoda_publicapi
   fields:
+    device_id:
+      required: false
+      selector:
+        device:
+          integration: myskoda_publicapi
+          multiple: true
     vin:
       required: false
       example: TMBJB9NY5RF999999
@@ -61,10 +76,13 @@ start_air_conditioning:
         boolean:
 
 stop_air_conditioning:
-  target:
-    device:
-      integration: myskoda_publicapi
   fields:
+    device_id:
+      required: false
+      selector:
+        device:
+          integration: myskoda_publicapi
+          multiple: true
     vin:
       required: false
       example: TMBJB9NY5RF999999
@@ -72,10 +90,13 @@ stop_air_conditioning:
         text:
 
 start_auxiliary_heating:
-  target:
-    device:
-      integration: myskoda_publicapi
   fields:
+    device_id:
+      required: false
+      selector:
+        device:
+          integration: myskoda_publicapi
+          multiple: true
     vin:
       required: false
       example: TMBJB9NY5RF999999
@@ -116,10 +137,13 @@ start_auxiliary_heating:
           type: password
 
 stop_auxiliary_heating:
-  target:
-    device:
-      integration: myskoda_publicapi
   fields:
+    device_id:
+      required: false
+      selector:
+        device:
+          integration: myskoda_publicapi
+          multiple: true
     vin:
       required: false
       example: TMBJB9NY5RF999999
@@ -127,10 +151,13 @@ stop_auxiliary_heating:
         text:
 
 start_active_ventilation:
-  target:
-    device:
-      integration: myskoda_publicapi
   fields:
+    device_id:
+      required: false
+      selector:
+        device:
+          integration: myskoda_publicapi
+          multiple: true
     vin:
       required: false
       example: TMBJB9NY5RF999999
@@ -138,10 +165,13 @@ start_active_ventilation:
         text:
 
 stop_active_ventilation:
-  target:
-    device:
-      integration: myskoda_publicapi
   fields:
+    device_id:
+      required: false
+      selector:
+        device:
+          integration: myskoda_publicapi
+          multiple: true
     vin:
       required: false
       example: TMBJB9NY5RF999999

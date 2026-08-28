@@ -553,6 +553,10 @@
       "name": "Refresh",
       "description": "Polls the MyŠkoda API immediately. Counts against the hourly quota.",
       "fields": {
+        "device_id": {
+          "name": "Device",
+          "description": "The vehicles to act on. Defaults to every configured vehicle."
+        },
         "vin": {
           "name": "VIN",
           "description": "Limit the action to this VIN."
@@ -563,6 +567,10 @@
       "name": "Start charging",
       "description": "Starts charging.",
       "fields": {
+        "device_id": {
+          "name": "Device",
+          "description": "The vehicles to act on. Defaults to every configured vehicle."
+        },
         "vin": {
           "name": "VIN",
           "description": "Limit the action to this VIN."
@@ -573,6 +581,10 @@
       "name": "Stop charging",
       "description": "Stops charging.",
       "fields": {
+        "device_id": {
+          "name": "Device",
+          "description": "The vehicles to act on. Defaults to every configured vehicle."
+        },
         "vin": {
           "name": "VIN",
           "description": "Limit the action to this VIN."
@@ -583,6 +595,10 @@
       "name": "Start air conditioning",
       "description": "Starts air conditioning towards a target temperature.",
       "fields": {
+        "device_id": {
+          "name": "Device",
+          "description": "The vehicles to act on. Defaults to every configured vehicle."
+        },
         "vin": {
           "name": "VIN",
           "description": "Limit the action to this VIN."
@@ -601,6 +617,10 @@
       "name": "Stop air conditioning",
       "description": "Stops air conditioning.",
       "fields": {
+        "device_id": {
+          "name": "Device",
+          "description": "The vehicles to act on. Defaults to every configured vehicle."
+        },
         "vin": {
           "name": "VIN",
           "description": "Limit the action to this VIN."
@@ -611,6 +631,10 @@
       "name": "Start auxiliary heating",
       "description": "Starts auxiliary heating. Requires the S-PIN.",
       "fields": {
+        "device_id": {
+          "name": "Device",
+          "description": "The vehicles to act on. Defaults to every configured vehicle."
+        },
         "vin": {
           "name": "VIN",
           "description": "Limit the action to this VIN."
@@ -637,6 +661,10 @@
       "name": "Stop auxiliary heating",
       "description": "Stops auxiliary heating.",
       "fields": {
+        "device_id": {
+          "name": "Device",
+          "description": "The vehicles to act on. Defaults to every configured vehicle."
+        },
         "vin": {
           "name": "VIN",
           "description": "Limit the action to this VIN."
@@ -647,6 +675,10 @@
       "name": "Start active ventilation",
       "description": "Starts active ventilation.",
       "fields": {
+        "device_id": {
+          "name": "Device",
+          "description": "The vehicles to act on. Defaults to every configured vehicle."
+        },
         "vin": {
           "name": "VIN",
           "description": "Limit the action to this VIN."
@@ -657,6 +689,10 @@
       "name": "Stop active ventilation",
       "description": "Stops active ventilation.",
       "fields": {
+        "device_id": {
+          "name": "Device",
+          "description": "The vehicles to act on. Defaults to every configured vehicle."
+        },
         "vin": {
           "name": "VIN",
           "description": "Limit the action to this VIN."
