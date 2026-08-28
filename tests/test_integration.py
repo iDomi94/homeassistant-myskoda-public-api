@@ -1,4 +1,4 @@
-"""End-to-end tests of the MyŠkoda B2C integration against a mocked API."""
+"""End-to-end tests of the MySkoda PublicAPI integration against a mocked API."""
 
 from datetime import timedelta
 from http import HTTPStatus
@@ -27,7 +27,7 @@ from homeassistant.helpers import entity_registry as er
 from homeassistant.util import dt as dt_util
 from pytest_homeassistant_custom_component.common import async_fire_time_changed
 
-from custom_components.myskoda_b2c.const import (
+from custom_components.myskoda_publicapi.const import (
     CONF_API_KEY,
     CONF_SPIN,
     CONF_VINS,
@@ -308,7 +308,7 @@ async def test_devices(hass: HomeAssistant, api) -> None:
     entry = await setup_integration(hass, api, vins=(VIN_BEV, VIN_ICE))
     devices = dr.async_entries_for_config_entry(dr.async_get(hass), entry.entry_id)
     names = {device.name for device in devices}
-    assert names == {"My Enyaq", "My Octavia", "MyŠkoda Public API"}
+    assert names == {"My Enyaq", "My Octavia", "MySkoda PublicAPI"}
 
 
 async def test_error_list_exposed(hass: HomeAssistant, api) -> None:

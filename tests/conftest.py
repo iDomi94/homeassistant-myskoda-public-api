@@ -1,4 +1,4 @@
-"""Fixtures shared by the MyŠkoda B2C tests."""
+"""Fixtures shared by the MySkoda PublicAPI tests."""
 
 import pytest
 from aioresponses import aioresponses

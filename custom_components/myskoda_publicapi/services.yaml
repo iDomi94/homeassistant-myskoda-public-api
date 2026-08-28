@@ -1,11 +1,11 @@
-# Actions exposed by the MyŠkoda B2C integration.
+# Actions exposed by the MySkoda PublicAPI integration.
 # Every call reaches the MyŠkoda Public API and counts against the hourly quota
 # of 20 requests per API key.
 
 refresh:
   target:
     device:
-      integration: myskoda_b2c
+      integration: myskoda_publicapi
   fields:
     vin:
       required: false
@@ -16,7 +16,7 @@ refresh:
 start_charging:
   target:
     device:
-      integration: myskoda_b2c
+      integration: myskoda_publicapi
   fields:
     vin:
       required: false
@@ -27,7 +27,7 @@ start_charging:
 stop_charging:
   target:
     device:
-      integration: myskoda_b2c
+      integration: myskoda_publicapi
   fields:
     vin:
       required: false
@@ -38,7 +38,7 @@ stop_charging:
 start_air_conditioning:
   target:
     device:
-      integration: myskoda_b2c
+      integration: myskoda_publicapi
   fields:
     vin:
       required: false
@@ -63,7 +63,7 @@ start_air_conditioning:
 stop_air_conditioning:
   target:
     device:
-      integration: myskoda_b2c
+      integration: myskoda_publicapi
   fields:
     vin:
       required: false
@@ -74,7 +74,7 @@ stop_air_conditioning:
 start_auxiliary_heating:
   target:
     device:
-      integration: myskoda_b2c
+      integration: myskoda_publicapi
   fields:
     vin:
       required: false
@@ -118,7 +118,7 @@ start_auxiliary_heating:
 stop_auxiliary_heating:
   target:
     device:
-      integration: myskoda_b2c
+      integration: myskoda_publicapi
   fields:
     vin:
       required: false
@@ -129,7 +129,7 @@ stop_auxiliary_heating:
 start_active_ventilation:
   target:
     device:
-      integration: myskoda_b2c
+      integration: myskoda_publicapi
   fields:
     vin:
       required: false
@@ -140,7 +140,7 @@ start_active_ventilation:
 stop_active_ventilation:
   target:
     device:
-      integration: myskoda_b2c
+      integration: myskoda_publicapi
   fields:
     vin:
       required: false

@@ -1,4 +1,4 @@
-"""Switches for the MyŠkoda B2C integration."""
+"""Switches for the MySkoda PublicAPI integration."""
 
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ from .const import (
     AUXILIARY_HEATING_STATES_ACTIVE,
     CHARGING_STATES_ACTIVE,
 )
-from .coordinator import MySkodaB2CConfigEntry, MySkodaCoordinator, VehicleState
+from .coordinator import MySkodaCoordinator, MySkodaPublicApiConfigEntry, VehicleState
 from .entity import (
     MySkodaEntityDescriptionMixin,
     MySkodaVehicleEntity,
@@ -107,7 +107,7 @@ SWITCHES: tuple[MySkodaSwitchDescription, ...] = (
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: MySkodaB2CConfigEntry,
+    entry: MySkodaPublicApiConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the switch platform."""

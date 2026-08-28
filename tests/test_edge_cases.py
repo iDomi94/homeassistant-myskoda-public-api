@@ -13,8 +13,8 @@ from pytest_homeassistant_custom_component.common import (
     mock_restore_cache,
 )
 
-from custom_components.myskoda_b2c.const import CONF_API_KEY, CONF_VINS, DOMAIN
-from custom_components.myskoda_b2c.diagnostics import (
+from custom_components.myskoda_publicapi.const import CONF_API_KEY, CONF_VINS, DOMAIN
+from custom_components.myskoda_publicapi.diagnostics import (
     async_get_config_entry_diagnostics,
 )
 

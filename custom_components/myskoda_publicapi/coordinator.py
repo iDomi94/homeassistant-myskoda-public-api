@@ -1,4 +1,4 @@
-"""Data update coordinator for the MyŠkoda B2C integration."""
+"""Data update coordinator for the MySkoda PublicAPI integration."""
 
 from __future__ import annotations
 
@@ -48,7 +48,7 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
-type MySkodaB2CConfigEntry = ConfigEntry[MySkodaCoordinator]
+type MySkodaPublicApiConfigEntry = ConfigEntry[MySkodaCoordinator]
 
 
 @dataclass
@@ -90,9 +90,9 @@ class MySkodaCoordinator(DataUpdateCoordinator[dict[str, VehicleState]]):
     therefore polls the vehicles sequentially and applies a single backoff.
     """
 
-    config_entry: MySkodaB2CConfigEntry
+    config_entry: MySkodaPublicApiConfigEntry
 
-    def __init__(self, hass: HomeAssistant, entry: MySkodaB2CConfigEntry) -> None:
+    def __init__(self, hass: HomeAssistant, entry: MySkodaPublicApiConfigEntry) -> None:
         """Initialise the coordinator from the config entry."""
         self.api = MySkodaPublicApi(
             async_get_clientsession(hass), entry.data[CONF_API_KEY]

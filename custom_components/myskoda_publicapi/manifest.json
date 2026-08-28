@@ -1,6 +1,6 @@
 {
-  "domain": "myskoda_b2c",
-  "name": "MyŠkoda B2C",
+  "domain": "myskoda_publicapi",
+  "name": "MySkoda PublicAPI",
   "codeowners": ["@iDomi94"],
   "config_flow": true,
   "dependencies": [],
@@ -8,7 +8,7 @@
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/iDomi94/homeassistant-myskoda-public-api/issues",
-  "loggers": ["custom_components.myskoda_b2c"],
+  "loggers": ["custom_components.myskoda_publicapi"],
   "requirements": [],
   "version": "0.1.0"
 }

@@ -1,4 +1,4 @@
-"""Test configuration for the MyŠkoda B2C integration."""
+"""Test configuration for the MySkoda PublicAPI integration."""
 
 import pytest
 

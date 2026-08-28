@@ -1,4 +1,4 @@
-"""Binary sensors for the MyŠkoda B2C integration."""
+"""Binary sensors for the MySkoda PublicAPI integration."""
 
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ from .const import (
     CHARGING_STATES_ACTIVE,
     CHARGING_STATES_CABLE_DISCONNECTED,
 )
-from .coordinator import MySkodaB2CConfigEntry, MySkodaCoordinator, VehicleState
+from .coordinator import MySkodaCoordinator, MySkodaPublicApiConfigEntry, VehicleState
 from .entity import (
     MySkodaEntityDescriptionMixin,
     MySkodaHubEntity,
@@ -290,7 +290,7 @@ HUB_BINARY_SENSORS: tuple[MySkodaHubBinarySensorDescription, ...] = (
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: MySkodaB2CConfigEntry,
+    entry: MySkodaPublicApiConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the binary sensor platform."""

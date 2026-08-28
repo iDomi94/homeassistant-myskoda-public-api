@@ -1,4 +1,4 @@
-"""Base entities for the MyŠkoda B2C integration."""
+"""Base entities for the MySkoda PublicAPI integration."""
 
 from __future__ import annotations
 
@@ -135,7 +135,7 @@ class MySkodaHubEntity(CoordinatorEntity[MySkodaCoordinator]):
         return DeviceInfo(
             identifiers={(DOMAIN, self.coordinator.config_entry.entry_id)},
             manufacturer=MANUFACTURER,
-            name="MyŠkoda Public API",
+            name="MySkoda PublicAPI",
             model="Public API",
             entry_type=DeviceEntryType.SERVICE,
             configuration_url="https://public.api.connect.skoda-auto.cz/docs",

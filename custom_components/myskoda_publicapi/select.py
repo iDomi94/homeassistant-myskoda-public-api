@@ -1,4 +1,4 @@
-"""Select entities for the MyŠkoda B2C integration."""
+"""Select entities for the MySkoda PublicAPI integration."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.restore_state import RestoreEntity
 
 from .const import AUX_START_MODE_HEATING, AUX_START_MODES
-from .coordinator import MySkodaB2CConfigEntry
+from .coordinator import MySkodaPublicApiConfigEntry
 from .entity import MySkodaEntityDescriptionMixin, MySkodaVehicleEntity, entity_exists
 
 
@@ -33,7 +33,7 @@ START_MODE_DESCRIPTION = MySkodaSelectDescription(
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: MySkodaB2CConfigEntry,
+    entry: MySkodaPublicApiConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the select platform."""

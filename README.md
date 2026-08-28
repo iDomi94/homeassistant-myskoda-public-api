@@ -1,4 +1,4 @@
-# MyŠkoda B2C — Home Assistant Integration
+# MySkoda PublicAPI — Home Assistant Integration
 
 Home-Assistant-Integration für die **offizielle MyŠkoda Public API**
 ([Doku](https://public.api.connect.skoda-auto.cz/docs) ·
@@ -17,7 +17,7 @@ externen Python-Abhängigkeiten.
 
 ## Abgrenzung zu `homeassistant-myskoda`
 
-| | [skodaconnect/homeassistant-myskoda](https://github.com/skodaconnect/homeassistant-myskoda) | **MyŠkoda B2C** |
+| | [skodaconnect/homeassistant-myskoda](https://github.com/skodaconnect/homeassistant-myskoda) | **MySkoda PublicAPI** |
 |---|---|---|
 | Zugang | inoffizielle App-API, E-Mail + Passwort | offizielle Public API, API-Key |
 | Push | MQTT-Events, nahezu Echtzeit | nein, reines Polling |
@@ -26,7 +26,7 @@ externen Python-Abhängigkeiten.
 | Abhängigkeit | `myskoda` PyPI-Paket | keine |
 
 Beide Integrationen lassen sich parallel betreiben — sie nutzen unterschiedliche Domains
-(`myskoda` vs. `myskoda_b2c`).
+(`myskoda` vs. `myskoda_publicapi`).
 
 ---
 
@@ -45,14 +45,14 @@ Ist der Key abgelaufen, startet Home Assistant automatisch den Reauth-Dialog.
 ## Installation
 
 **HACS (empfohlen)** — HACS → ⋮ → *Benutzerdefinierte Repositorys* → dieses Repository als
-Kategorie *Integration* hinzufügen → *MyŠkoda B2C* installieren → Home Assistant neu starten.
+Kategorie *Integration* hinzufügen → *MySkoda PublicAPI* installieren → Home Assistant neu starten.
 
-**Manuell** — `custom_components/myskoda_b2c` nach `<config>/custom_components/` kopieren und
+**Manuell** — `custom_components/myskoda_publicapi` nach `<config>/custom_components/` kopieren und
 Home Assistant neu starten.
 
 ## Einrichtung
 
-*Einstellungen → Geräte & Dienste → Integration hinzufügen → **MyŠkoda B2C***
+*Einstellungen → Geräte & Dienste → Integration hinzufügen → **MySkoda PublicAPI***
 
 1. **API-Key** — der einzige Pflichtwert.
 2. **Fahrzeuge (FIN)** — dieser Schritt erscheint nur, weil die Public API **keinen Endpunkt
@@ -66,7 +66,7 @@ Fahrzeuge fallen also direkt im Dialog auf.
 
 ## Optionen
 
-*Geräte & Dienste → MyŠkoda B2C → **Konfigurieren***
+*Geräte & Dienste → MySkoda PublicAPI → **Konfigurieren***
 
 | Option | Standard | Bedeutung |
 |---|---|---|
@@ -77,7 +77,7 @@ Fahrzeuge fallen also direkt im Dialog auf.
 ## Abfrageintervall aus Automationen steuern
 
 Das Intervall ist zusätzlich eine Entität — `number.<api-gerät>_abfrageintervall` auf dem
-Dienst-Gerät *MyŠkoda Public API*. Damit lässt es sich per `number.set_value` aus einer
+Dienst-Gerät *MySkoda PublicAPI*. Damit lässt es sich per `number.set_value` aus einer
 Automation ändern, etwa um während des Ladens öfter abzufragen und danach wieder
 zurückzugehen. Der Wert landet in denselben Optionen wie über den Dialog und übersteht
 deshalb einen Neustart.
@@ -92,7 +92,7 @@ automation:
     actions:
       - action: number.set_value
         target:
-          entity_id: number.myskoda_public_api_abfrageintervall
+          entity_id: number.myskoda_publicapi_abfrageintervall
         data:
           value: 5
 
@@ -105,7 +105,7 @@ automation:
     actions:
       - action: number.set_value
         target:
-          entity_id: number.myskoda_public_api_abfrageintervall
+          entity_id: number.myskoda_publicapi_abfrageintervall
         data:
           value: 30
 ```
@@ -138,7 +138,7 @@ Fehlerantworten mit `401`/`403` verbrauchen kein Kontingent, alle anderen — au
 
 ## Entitäten
 
-Jedes Fahrzeug wird ein eigenes Gerät; dazu kommt ein Dienst-Gerät *MyŠkoda Public API* für
+Jedes Fahrzeug wird ein eigenes Gerät; dazu kommt ein Dienst-Gerät *MySkoda PublicAPI* für
 Kontingent und Key-Status. Entitäten werden nur angelegt, wenn das Fahrzeug den zugehörigen
 Datenbereich überhaupt liefert — ein Diesel bekommt keine Lade-Entitäten, ein BEV keine
 Tank-Entitäten.
@@ -203,7 +203,7 @@ wiederhergestellt.
 
 ## Aktionen (Services)
 
-`myskoda_b2c.refresh` · `start_charging` · `stop_charging` · `start_air_conditioning` ·
+`myskoda_publicapi.refresh` · `start_charging` · `stop_charging` · `start_air_conditioning` ·
 `stop_air_conditioning` · `start_auxiliary_heating` · `stop_auxiliary_heating` ·
 `start_active_ventilation` · `stop_active_ventilation`
 
@@ -211,7 +211,7 @@ Ziel wahlweise über `target` (Gerät/Entität) oder das Feld `vin`. Ohne Ziel g
 für alle konfigurierten Fahrzeuge.
 
 ```yaml
-action: myskoda_b2c.start_air_conditioning
+action: myskoda_publicapi.start_air_conditioning
 target:
   device_id: <Fahrzeug>
 data:
@@ -220,7 +220,7 @@ data:
 ```
 
 ```yaml
-action: myskoda_b2c.start_auxiliary_heating
+action: myskoda_publicapi.start_auxiliary_heating
 data:
   vin: TMBJB9NY5RF999999
   temperature: 21.5
@@ -260,10 +260,10 @@ Debug-Logging:
 ```yaml
 logger:
   logs:
-    custom_components.myskoda_b2c: debug
+    custom_components.myskoda_publicapi: debug
 ```
 
-Für Fehlerberichte: *Geräte & Dienste → MyŠkoda B2C → ⋮ → Diagnose herunterladen*. FIN,
+Für Fehlerberichte: *Geräte & Dienste → MySkoda PublicAPI → ⋮ → Diagnose herunterladen*. FIN,
 Kennzeichen, Adresse und GPS-Position werden dabei automatisch entfernt.
 
 ## Lizenz

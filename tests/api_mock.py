@@ -7,7 +7,7 @@ from fixtures import BEV, ICE, RATE_LIMIT_HEADERS, VIN_BEV, VIN_ICE
 from homeassistant.core import HomeAssistant
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.myskoda_b2c.const import CONF_API_KEY, CONF_VINS, DOMAIN
+from custom_components.myskoda_publicapi.const import CONF_API_KEY, CONF_VINS, DOMAIN
 
 BASE = "https://public.api.connect.skoda-auto.cz"
 LIST_URL = f"{BASE}/api/v1/vehicles"

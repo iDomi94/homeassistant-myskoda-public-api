@@ -1,4 +1,4 @@
-"""Actions exposed by the MyŠkoda B2C integration."""
+"""Actions exposed by the MySkoda PublicAPI integration."""
 
 from __future__ import annotations
 
@@ -108,7 +108,7 @@ def _resolve_targets(
         if getattr(entry, "runtime_data", None) is not None
     ]
     if not entries:
-        raise HomeAssistantError("No MyŠkoda B2C config entry is loaded")
+        raise HomeAssistantError("No MySkoda PublicAPI config entry is loaded")
 
     wanted: set[str] = set()
     if vin := call.data.get(ATTR_VIN):

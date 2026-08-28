@@ -1,4 +1,4 @@
-"""Number entities for the MyŠkoda B2C integration.
+"""Number entities for the MySkoda PublicAPI integration.
 
 The public API exposes no endpoints for writing vehicle settings, so the
 per-vehicle numbers hold the parameters Home Assistant sends with the next
@@ -32,7 +32,7 @@ from .const import (
     MIN_TARGET_TEMPERATURE,
     TARGET_TEMPERATURE_STEP,
 )
-from .coordinator import CommandSettings, MySkodaB2CConfigEntry
+from .coordinator import CommandSettings, MySkodaPublicApiConfigEntry
 from .entity import (
     MySkodaEntityDescriptionMixin,
     MySkodaHubEntity,
@@ -120,7 +120,7 @@ POLL_INTERVAL_DESCRIPTION = NumberEntityDescription(
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: MySkodaB2CConfigEntry,
+    entry: MySkodaPublicApiConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the number platform."""

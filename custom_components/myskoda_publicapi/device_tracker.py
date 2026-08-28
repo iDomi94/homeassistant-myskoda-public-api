@@ -1,4 +1,4 @@
-"""Device tracker for the MyŠkoda B2C integration."""
+"""Device tracker for the MySkoda PublicAPI integration."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ from homeassistant.components.device_tracker.const import SourceType
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .coordinator import MySkodaB2CConfigEntry
+from .coordinator import MySkodaPublicApiConfigEntry
 from .entity import MySkodaEntityDescriptionMixin, MySkodaVehicleEntity, entity_exists
 from .utils import clean_value
 
@@ -35,7 +35,7 @@ PARKING_POSITION_DESCRIPTION = MySkodaTrackerDescription(
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: MySkodaB2CConfigEntry,
+    entry: MySkodaPublicApiConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the device tracker platform."""

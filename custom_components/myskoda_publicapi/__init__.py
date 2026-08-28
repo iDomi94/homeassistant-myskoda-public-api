@@ -1,4 +1,4 @@
-"""The MyŠkoda B2C integration.
+"""The MySkoda PublicAPI integration.
 
 Talks to the official MyŠkoda Public API
 (https://public.api.connect.skoda-auto.cz/docs) with an API key created in the
@@ -13,7 +13,7 @@ from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 
 from .const import DOMAIN
-from .coordinator import MySkodaB2CConfigEntry, MySkodaCoordinator
+from .coordinator import MySkodaCoordinator, MySkodaPublicApiConfigEntry
 from .services import async_register_services
 
 _LOGGER = logging.getLogger(__name__)
@@ -31,8 +31,10 @@ PLATFORMS: list[Platform] = [
 ]
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: MySkodaB2CConfigEntry) -> bool:
-    """Set up MyŠkoda B2C from a config entry."""
+async def async_setup_entry(
+    hass: HomeAssistant, entry: MySkodaPublicApiConfigEntry
+) -> bool:
+    """Set up MySkoda PublicAPI from a config entry."""
     coordinator = MySkodaCoordinator(hass, entry)
     await coordinator.async_config_entry_first_refresh()
 
@@ -44,14 +46,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: MySkodaB2CConfigEntry) -
     return True
 
 
-async def async_unload_entry(hass: HomeAssistant, entry: MySkodaB2CConfigEntry) -> bool:
+async def async_unload_entry(
+    hass: HomeAssistant, entry: MySkodaPublicApiConfigEntry
+) -> bool:
     """Unload a config entry."""
     entry.runtime_data.async_cancel_pending_refresh()
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
 
 async def async_update_options(
-    hass: HomeAssistant, entry: MySkodaB2CConfigEntry
+    hass: HomeAssistant, entry: MySkodaPublicApiConfigEntry
 ) -> None:
     """Apply changed options without reloading the entry.
 
@@ -62,7 +66,7 @@ async def async_update_options(
 
 
 async def async_remove_config_entry_device(
-    hass: HomeAssistant, entry: MySkodaB2CConfigEntry, device_entry: object
+    hass: HomeAssistant, entry: MySkodaPublicApiConfigEntry, device_entry: object
 ) -> bool:
     """Allow removing a vehicle device that is no longer configured."""
     identifiers = getattr(device_entry, "identifiers", set())

@@ -1,4 +1,4 @@
-"""Helpers shared by the MyŠkoda B2C platforms."""
+"""Helpers shared by the MySkoda PublicAPI platforms."""
 
 from __future__ import annotations
 

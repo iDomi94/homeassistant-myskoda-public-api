@@ -1,4 +1,4 @@
-"""Climate entities for the MyŠkoda B2C integration."""
+"""Climate entities for the MySkoda PublicAPI integration."""
 
 from __future__ import annotations
 
@@ -25,7 +25,7 @@ from .const import (
     MIN_TARGET_TEMPERATURE,
     TARGET_TEMPERATURE_STEP,
 )
-from .coordinator import MySkodaB2CConfigEntry
+from .coordinator import MySkodaPublicApiConfigEntry
 from .entity import MySkodaEntityDescriptionMixin, MySkodaVehicleEntity, entity_exists
 from .helpers import async_start_air_conditioning, async_start_auxiliary_heating
 from .utils import clean_value
@@ -83,7 +83,7 @@ AUXILIARY_HEATING_DESCRIPTION = MySkodaClimateDescription(
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: MySkodaB2CConfigEntry,
+    entry: MySkodaPublicApiConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the climate platform."""

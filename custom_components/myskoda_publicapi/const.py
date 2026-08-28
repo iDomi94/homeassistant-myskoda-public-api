@@ -1,10 +1,10 @@
-"""Constants for the MyŠkoda B2C (public API) integration."""
+"""Constants for the MySkoda PublicAPI (public API) integration."""
 
 from __future__ import annotations
 
 from typing import Final
 
-DOMAIN: Final = "myskoda_b2c"
+DOMAIN: Final = "myskoda_publicapi"
 MANUFACTURER: Final = "Škoda"
 
 # --- API ---------------------------------------------------------------------

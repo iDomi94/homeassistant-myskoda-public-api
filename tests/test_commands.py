@@ -13,7 +13,7 @@ from homeassistant.exceptions import HomeAssistantError
 from homeassistant.util import dt as dt_util
 from pytest_homeassistant_custom_component.common import async_fire_time_changed
 
-from custom_components.myskoda_b2c.const import (
+from custom_components.myskoda_publicapi.const import (
     CONF_REFRESH_AFTER_COMMAND,
     CONF_SPIN,
     DOMAIN,
@@ -361,12 +361,11 @@ async def test_rate_limit_sensors(hass: HomeAssistant, api) -> None:
     """The quota headers become diagnostic entities."""
     await setup_integration(hass, api)
     assert (
-        hass.states.get("sensor.myskoda_public_api_api_requests_remaining").state
-        == "18"
+        hass.states.get("sensor.myskoda_publicapi_api_requests_remaining").state == "18"
     )
-    assert hass.states.get("sensor.myskoda_public_api_api_request_limit").state == "20"
+    assert hass.states.get("sensor.myskoda_publicapi_api_request_limit").state == "20"
     assert (
-        hass.states.get("binary_sensor.myskoda_public_api_rate_limit_reached").state
+        hass.states.get("binary_sensor.myskoda_publicapi_rate_limit_reached").state
         == "off"
     )
 
@@ -448,7 +447,7 @@ async def test_poll_interval_can_be_set_from_an_automation(
     """The interval is an entity, so number.set_value can change it."""
     entry = await setup_integration(hass, api)
     coordinator = entry.runtime_data
-    entity_id = "number.myskoda_public_api_polling_interval"
+    entity_id = "number.myskoda_publicapi_polling_interval"
     assert hass.states.get(entity_id).state == "30"
 
     await hass.services.async_call(
@@ -470,7 +469,7 @@ async def test_shortening_rearms_the_timer_lengthening_is_free(
 ) -> None:
     """Only a shortened interval spends a request on re-arming the timer."""
     entry = await setup_integration(hass, api)
-    entity_id = "number.myskoda_public_api_polling_interval"
+    entity_id = "number.myskoda_publicapi_polling_interval"
 
     before = request_count(api)
     await hass.services.async_call(

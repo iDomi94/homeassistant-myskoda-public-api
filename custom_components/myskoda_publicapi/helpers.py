@@ -72,8 +72,8 @@ async def async_start_auxiliary_heating(
     if not pin:
         raise HomeAssistantError(
             "Auxiliary heating requires the S-PIN. Add it in the integration options "
-            "(Settings > Devices & services > MyŠkoda B2C > Configure), or pass it to "
-            "the myskoda_b2c.start_auxiliary_heating action."
+            "(Settings > Devices & services > MySkoda PublicAPI > Configure), or pass it to "
+            "the myskoda_publicapi.start_auxiliary_heating action."
         )
 
     duration = (

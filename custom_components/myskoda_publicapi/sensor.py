@@ -1,4 +1,4 @@
-"""Sensors for the MyŠkoda B2C integration."""
+"""Sensors for the MySkoda PublicAPI integration."""
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ from homeassistant.const import (
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .coordinator import MySkodaB2CConfigEntry, MySkodaCoordinator, VehicleState
+from .coordinator import MySkodaCoordinator, MySkodaPublicApiConfigEntry, VehicleState
 from .entity import (
     MySkodaEntityDescriptionMixin,
     MySkodaHubEntity,
@@ -794,7 +794,7 @@ HUB_SENSORS: tuple[MySkodaHubSensorDescription, ...] = (
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: MySkodaB2CConfigEntry,
+    entry: MySkodaPublicApiConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the sensor platform."""

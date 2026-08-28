@@ -1,4 +1,4 @@
-"""Vehicle render image for the MyŠkoda B2C integration."""
+"""Vehicle render image for the MySkoda PublicAPI integration."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util import dt as dt_util
 
-from .coordinator import MySkodaB2CConfigEntry, MySkodaCoordinator
+from .coordinator import MySkodaCoordinator, MySkodaPublicApiConfigEntry
 from .entity import MySkodaVehicleEntity
 
 RENDER_DESCRIPTION = ImageEntityDescription(
@@ -18,7 +18,7 @@ RENDER_DESCRIPTION = ImageEntityDescription(
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: MySkodaB2CConfigEntry,
+    entry: MySkodaPublicApiConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the image platform."""

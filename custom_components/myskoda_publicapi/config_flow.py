@@ -1,4 +1,4 @@
-"""Config flow for the MyŠkoda B2C integration."""
+"""Config flow for the MySkoda PublicAPI integration."""
 
 from __future__ import annotations
 
@@ -87,7 +87,7 @@ def _normalise_vins(raw: Any) -> list[str]:
     return [part.strip().upper() for part in parts if part.strip()]
 
 
-class MySkodaB2CConfigFlow(ConfigFlow, domain=DOMAIN):
+class MySkodaPublicApiConfigFlow(ConfigFlow, domain=DOMAIN):
     """Handle the config flow.
 
     Setup asks for the API key only. The public API has no endpoint that lists
@@ -258,10 +258,10 @@ class MySkodaB2CConfigFlow(ConfigFlow, domain=DOMAIN):
     @callback
     def async_get_options_flow(config_entry: ConfigEntry) -> OptionsFlow:
         """Return the options flow."""
-        return MySkodaB2COptionsFlow()
+        return MySkodaPublicApiOptionsFlow()
 
 
-class MySkodaB2COptionsFlow(OptionsFlow):
+class MySkodaPublicApiOptionsFlow(OptionsFlow):
     """Handle the integration options."""
 
     async def async_step_init(

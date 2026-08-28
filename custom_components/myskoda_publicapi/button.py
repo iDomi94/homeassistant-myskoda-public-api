@@ -1,4 +1,4 @@
-"""Buttons for the MyŠkoda B2C integration."""
+"""Buttons for the MySkoda PublicAPI integration."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .coordinator import MySkodaB2CConfigEntry, MySkodaCoordinator
+from .coordinator import MySkodaCoordinator, MySkodaPublicApiConfigEntry
 from .entity import MySkodaEntityDescriptionMixin, MySkodaVehicleEntity, entity_exists
 from .helpers import async_start_air_conditioning, async_start_auxiliary_heating
 
@@ -124,7 +124,7 @@ REFRESH_DESCRIPTION = MySkodaButtonDescription(
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    entry: MySkodaB2CConfigEntry,
+    entry: MySkodaPublicApiConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the button platform."""
