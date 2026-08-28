@@ -197,10 +197,19 @@ class MySkodaCoordinator(DataUpdateCoordinator[dict[str, VehicleState]]):
             self.api.rate_limit.limit or 20,
         )
 
-    @callback
-    def async_update_poll_interval(self) -> None:
-        """Apply a changed polling interval from the options."""
-        self.update_interval = timedelta(minutes=self.poll_interval)
+    async def async_apply_options(self) -> None:
+        """Apply changed options to a running coordinator.
+
+        Assigning ``update_interval`` only stores the value; Home Assistant
+        re-arms the timer at the end of the next refresh. Requesting one right
+        away makes a shortened interval take effect immediately instead of
+        after the poll that was already scheduled, at the cost of one request.
+        """
+        interval = timedelta(minutes=self.poll_interval)
+        if interval == self.update_interval:
+            return
+        self.update_interval = interval
+        await self.async_request_refresh()
 
     # --- Commands ------------------------------------------------------------
 

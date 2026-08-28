@@ -1,5 +1,6 @@
 """End-to-end tests of the MyŠkoda B2C integration against a mocked API."""
 
+from datetime import timedelta
 from http import HTTPStatus
 
 import pytest
@@ -23,6 +24,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
+from homeassistant.util import dt as dt_util
+from pytest_homeassistant_custom_component.common import async_fire_time_changed
 
 from custom_components.myskoda_b2c.const import (
     CONF_API_KEY,
@@ -314,3 +317,31 @@ async def test_error_list_exposed(hass: HomeAssistant, api) -> None:
     state = hass.states.get("sensor.my_octavia_data_errors")
     assert state.state == "1"
     assert state.attributes["error_types"] == ["CHARGING_UNSUPPORTED"]
+
+
+async def test_changed_interval_takes_effect_immediately(
+    hass: HomeAssistant, api
+) -> None:
+    """A shortened interval must not wait for the already scheduled poll."""
+    entry = await setup_integration(hass, api)
+    coordinator = entry.runtime_data
+    assert coordinator.update_interval == timedelta(minutes=30)
+
+    result = await hass.config_entries.options.async_init(entry.entry_id)
+    await hass.config_entries.options.async_configure(
+        result["flow_id"],
+        {
+            "poll_interval_in_minutes": 10,
+            CONF_SPIN: "",
+            "refresh_after_command": True,
+        },
+    )
+    await hass.async_block_till_done()
+    assert coordinator.update_interval == timedelta(minutes=10)
+
+    # The timer is re-armed, so a poll happens after ten minutes rather than
+    # at the originally scheduled thirty.
+    before = sum(len(calls) for calls in api.requests.values())
+    async_fire_time_changed(hass, dt_util.utcnow() + timedelta(minutes=11))
+    await hass.async_block_till_done()
+    assert sum(len(calls) for calls in api.requests.values()) > before

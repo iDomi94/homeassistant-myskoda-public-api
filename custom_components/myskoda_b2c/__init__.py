@@ -53,8 +53,12 @@ async def async_unload_entry(hass: HomeAssistant, entry: MySkodaB2CConfigEntry) 
 async def async_update_options(
     hass: HomeAssistant, entry: MySkodaB2CConfigEntry
 ) -> None:
-    """Apply changed options without a full reload where possible."""
-    entry.runtime_data.async_update_poll_interval()
+    """Apply changed options without reloading the entry.
+
+    The S-PIN and the post-command refresh are read from the options on every
+    use, so only the polling interval needs applying.
+    """
+    await entry.runtime_data.async_apply_options()
 
 
 async def async_remove_config_entry_device(
