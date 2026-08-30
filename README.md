@@ -8,10 +8,13 @@ Die Integration nutzt ausschließlich den dokumentierten, öffentlichen Endpunkt
 **API-Key aus der MyŠkoda-App** — keine Zugangsdaten, keine internen Endpunkte, keine
 externen Python-Abhängigkeiten.
 
-> **Status: ungetestet.** Die API befindet sich in der Beta (`1.0.0-beta.6`) und API-Keys
-> waren zum Zeitpunkt der Entwicklung noch nicht erzeugbar. Der Code ist vollständig gegen
-> die veröffentlichte OpenAPI-Spezifikation (siehe [`docs/`](docs/)) implementiert, aber
-> noch nicht gegen ein echtes Fahrzeug verifiziert.
+> **Status: Lesepfade gegen ein echtes Fahrzeug verifiziert, Fernbefehle noch nicht.**
+> Die API ist in der Beta (`1.0.0-beta.6`). Mit einem echten API-Key geprüft wurden: der
+> vollständige Fahrzeug-Abruf, der Teilabruf `?include=info`, das Verhalten bei einer nicht
+> abgedeckten FIN, die `RateLimit-*`- und Ablauf-Header sowie das Fehlen eines
+> Fahrzeuglisten-Endpunkts. Die Antwort eines echten Enyaq liegt anonymisiert als
+> Test-Fixture bei. **Nicht** erprobt sind die acht `POST`-Befehle — die würden das Fahrzeug
+> tatsächlich bedienen.
 
 ---
 
@@ -57,9 +60,10 @@ Home Assistant neu starten.
 1. **API-Key** — der einzige Pflichtwert.
 2. **Fahrzeuge (FIN)** — dieser Schritt erscheint nur, weil die Public API **keinen Endpunkt
    zum Auflisten der Fahrzeuge** eines Keys anbietet; es gibt ausschließlich
-   `GET /api/v1/vehicles/{vin}`. Die Integration probiert bei jeder Einrichtung zuerst eine
-   Discovery über `GET /api/v1/vehicles`. Liefert Škoda dort irgendwann eine Liste, entfällt
-   der Schritt automatisch und die Einrichtung fragt tatsächlich nur noch den API-Key ab.
+   `GET /api/v1/vehicles/{vin}`. Mit einem gültigen Key geprüft: `GET /api/v1/vehicles`
+   antwortet mit `404 No static resource`. Die Integration probiert das bei jeder
+   Einrichtung trotzdem zuerst — liefert Škoda dort irgendwann eine Liste, entfällt der
+   Schritt automatisch und die Einrichtung fragt tatsächlich nur noch den API-Key ab.
 
 Jede eingegebene FIN wird sofort gegen die API geprüft, Tippfehler und nicht abgedeckte
 Fahrzeuge fallen also direkt im Dialog auf.
@@ -273,13 +277,20 @@ Kein offizielles Produkt von Škoda Auto. Škoda und MyŠkoda sind Marken der Š
 
 ## Tests
 
-Die Integration ist vollständig gegen ein echtes Home Assistant getestet — mit einer aus der
-OpenAPI-Spezifikation gebauten Mock-API. 46 Tests decken Config-Flow, Reauth, Optionen,
-Entitätserzeugung für BEV und Verbrenner, alle Fernbefehle, Rate-Limit-Backoff, Fehlerbilder
-(401/403/422/429), Wiederherstellung nach Neustart und die Diagnose-Redaktion ab.
+Die Integration läuft in den Tests gegen ein echtes Home Assistant. 76 Tests decken
+Config-Flow, Reauth, Optionen, Entitätserzeugung für BEV und Verbrenner, alle Fernbefehle,
+Rate-Limit-Backoff, Fehlerbilder (401/403/422/429), Wiederherstellung nach Neustart, die
+Diagnose-Redaktion sowie die Regeln, die `hassfest` und HACS prüfen.
+
+Ein Teil davon läuft gegen die **anonymisierte Antwort eines echten Enyaq**
+(`tests/fixture_real_enyaq.json`): welche Bereiche das Fahrzeug meldet, welche Felder es
+weglässt, die tatsächlichen Enum-Werte und die gemischten Zeitstempel-Formate sind
+unverändert übernommen.
 
 ```bash
 pip install -r requirements-test.txt && pytest -q
 ```
 
-Was damit **nicht** abgedeckt ist: das Verhalten der echten API und des Fahrzeugs.
+Was damit **nicht** abgedeckt ist: die acht `POST`-Befehle gegen ein echtes Fahrzeug, das
+Verhalten bei erschöpftem Kontingent (`429`) und der Reauth mit einem tatsächlich
+abgelaufenen Schlüssel.

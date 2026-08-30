@@ -1,0 +1,384 @@
+{
+  "vehicle": {
+    "airConditioning": {
+      "state": "OFF",
+      "airConditioningAtUnlock": false,
+      "carCapturedTimestamp": "2026-08-28T15:54:46Z",
+      "targetTemperature": {
+        "value": 26.0,
+        "unit": "CELSIUS"
+      },
+      "windowHeating": {
+        "enabled": true,
+        "front": "OFF",
+        "rear": "OFF"
+      }
+    },
+    "charging": {
+      "isVehicleInSavedLocation": false,
+      "carCapturedTimestamp": "2026-08-28T15:59:39Z",
+      "settings": {
+        "autoUnlockPlugWhenCharged": "OFF",
+        "availableChargeModes": [
+          "MANUAL"
+        ],
+        "batteryCareModeTargetValueInPercent": 80,
+        "chargingCareMode": "ACTIVATED",
+        "maxChargeCurrentAc": "MAXIMUM",
+        "preferredChargeMode": "MANUAL",
+        "targetStateOfChargeInPercent": 80
+      },
+      "status": {
+        "battery": {
+          "remainingCruisingRangeInMeters": 363000,
+          "stateOfChargeInPercent": 75
+        },
+        "chargePowerInKw": 0.0,
+        "fullyChargedAt": "2026-08-28T15:59:39Z",
+        "remainingTimeToFullyChargedInMinutes": 0,
+        "state": "CONNECT_CABLE"
+      }
+    },
+    "chargingProfiles": {
+      "profiles": [
+        {
+          "id": 1,
+          "name": "Location 1",
+          "settings": {
+            "autoUnlockPlugWhenCharged": "OFF",
+            "maxChargingCurrent": "MAXIMUM",
+            "minBatteryStateOfCharge": {
+              "minimumBatteryStateOfChargeInPercent": 0
+            },
+            "targetStateOfChargeInPercent": 80
+          },
+          "preferredChargingTimes": [
+            {
+              "id": 1,
+              "enabled": true,
+              "startTime": "11:00",
+              "endTime": "19:30"
+            },
+            {
+              "id": 2,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            },
+            {
+              "id": 3,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            },
+            {
+              "id": 4,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            }
+          ],
+          "timers": [
+            {
+              "id": 1,
+              "enabled": false,
+              "type": "RECURRING",
+              "recurringOn": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY"
+              ],
+              "time": "07:00"
+            },
+            {
+              "id": 2,
+              "enabled": false,
+              "type": "RECURRING",
+              "recurringOn": [
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "time": "09:00"
+            },
+            {
+              "id": 3,
+              "enabled": false,
+              "type": "RECURRING",
+              "recurringOn": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY",
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "time": "07:00"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Location 2",
+          "settings": {
+            "autoUnlockPlugWhenCharged": "OFF",
+            "maxChargingCurrent": "MAXIMUM",
+            "minBatteryStateOfCharge": {
+              "minimumBatteryStateOfChargeInPercent": 0
+            },
+            "targetStateOfChargeInPercent": 80
+          },
+          "preferredChargingTimes": [
+            {
+              "id": 5,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            },
+            {
+              "id": 6,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            },
+            {
+              "id": 7,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            },
+            {
+              "id": 8,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            }
+          ],
+          "timers": [
+            {
+              "id": 4,
+              "enabled": false,
+              "type": "RECURRING",
+              "recurringOn": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY"
+              ],
+              "time": "07:00"
+            },
+            {
+              "id": 5,
+              "enabled": false,
+              "type": "ONE_OFF",
+              "oneOffDay": "SUNDAY",
+              "time": "07:30"
+            },
+            {
+              "id": 6,
+              "enabled": false,
+              "type": "RECURRING",
+              "recurringOn": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY",
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "time": "07:00"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Location 3",
+          "settings": {
+            "autoUnlockPlugWhenCharged": "OFF",
+            "maxChargingCurrent": "MAXIMUM",
+            "minBatteryStateOfCharge": {
+              "minimumBatteryStateOfChargeInPercent": 0
+            },
+            "targetStateOfChargeInPercent": 100
+          },
+          "preferredChargingTimes": [
+            {
+              "id": 13,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            },
+            {
+              "id": 14,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            },
+            {
+              "id": 15,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            },
+            {
+              "id": 16,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            }
+          ],
+          "timers": [
+            {
+              "id": 10,
+              "enabled": false,
+              "type": "RECURRING",
+              "recurringOn": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY"
+              ],
+              "time": "07:00"
+            },
+            {
+              "id": 11,
+              "enabled": false,
+              "type": "RECURRING",
+              "recurringOn": [
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "time": "09:00"
+            },
+            {
+              "id": 12,
+              "enabled": true,
+              "type": "RECURRING",
+              "recurringOn": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY",
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "time": "07:00"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Location 4",
+          "settings": {
+            "autoUnlockPlugWhenCharged": "OFF",
+            "maxChargingCurrent": "MAXIMUM",
+            "minBatteryStateOfCharge": {
+              "minimumBatteryStateOfChargeInPercent": 0
+            },
+            "targetStateOfChargeInPercent": 80
+          },
+          "preferredChargingTimes": [
+            {
+              "id": 9,
+              "enabled": true,
+              "startTime": "09:29",
+              "endTime": "19:30"
+            },
+            {
+              "id": 10,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            },
+            {
+              "id": 11,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            },
+            {
+              "id": 12,
+              "enabled": false,
+              "startTime": "22:00",
+              "endTime": "06:00"
+            }
+          ],
+          "timers": [
+            {
+              "id": 7,
+              "enabled": false,
+              "type": "RECURRING",
+              "recurringOn": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY"
+              ],
+              "time": "07:00"
+            },
+            {
+              "id": 8,
+              "enabled": false,
+              "type": "RECURRING",
+              "recurringOn": [
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "time": "09:00"
+            },
+            {
+              "id": 9,
+              "enabled": false,
+              "type": "RECURRING",
+              "recurringOn": [
+                "MONDAY",
+                "TUESDAY",
+                "WEDNESDAY",
+                "THURSDAY",
+                "FRIDAY",
+                "SATURDAY",
+                "SUNDAY"
+              ],
+              "time": "07:00"
+            }
+          ]
+        }
+      ],
+      "carCapturedTimestamp": "2026-08-28T18:35:32.718Z"
+    },
+    "licensePlate": "1MB 1234",
+    "name": "Enyaq",
+    "odometer": {
+      "mileageInKm": 57336,
+      "carCapturedTimestamp": "2026-08-29T18:51:36.014Z"
+    },
+    "parkingPosition": {
+      "state": "IN_MOTION"
+    },
+    "renderUrl": "https://www.example.com/render.png",
+    "status": {
+      "overall": {
+        "doorsLocked": "YES",
+        "locked": "YES",
+        "doors": "CLOSED",
+        "windows": "CLOSED",
+        "lights": "OFF",
+        "reliableLockStatus": "LOCKED"
+      },
+      "detail": {
+        "sunroof": "CLOSED",
+        "trunk": "CLOSED",
+        "bonnet": "CLOSED"
+      },
+      "carCapturedTimestamp": "2026-08-29T18:51:36.834Z"
+    },
+    "vin": "TMBJB9NY5RF999999"
+  }
+}
