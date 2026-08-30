@@ -228,3 +228,32 @@ async def test_unknown_vin_is_reported_as_unauthorized(
         result["flow_id"], {CONF_VINS: ["TMBJB9NY5RF000000"]}
     )
     assert result["errors"] == {"base": "vehicle_not_authorized"}
+
+
+async def test_diagnostics_redact_charging_location_names(
+    hass: HomeAssistant, api
+) -> None:
+    """Saved charging locations are named after real places.
+
+    Diagnostics end up in public issues, so the names must not survive.
+    """
+    from custom_components.myskoda_publicapi.diagnostics import (
+        async_get_config_entry_diagnostics,
+    )
+
+    entry = await setup_real(hass, api)
+    diagnostics = await async_get_config_entry_diagnostics(hass, entry)
+    dumped = json.dumps(diagnostics)
+
+    for profile in REAL["vehicle"]["chargingProfiles"]["profiles"]:
+        assert profile["name"] not in dumped, profile["name"]
+    # The structure around them survives, so the data stays useful.
+    profiles = diagnostics["vehicles"][0]["raw"]["chargingProfiles"]["profiles"]
+    assert len(profiles) == 4
+    assert profiles[0]["settings"]["targetStateOfChargeInPercent"] == 80
+    # The live objects must not be mutated by producing diagnostics.
+    live = entry.runtime_data.vehicles[VIN].data.raw
+    assert (
+        live["chargingProfiles"]["profiles"][0]["name"]
+        == REAL["vehicle"]["chargingProfiles"]["profiles"][0]["name"]
+    )

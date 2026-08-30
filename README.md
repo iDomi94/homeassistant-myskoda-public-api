@@ -271,7 +271,7 @@ Kennzeichen, Adresse und GPS-Position werden dabei automatisch entfernt.
 
 ## Lizenz
 
-MIT — siehe [LICENSE](LICENSE).
+GNU Affero General Public License v3.0 — siehe [LICENSE](LICENSE).
 
 Kein offizielles Produkt von Škoda Auto. Škoda und MyŠkoda sind Marken der Škoda Auto a.s.
 

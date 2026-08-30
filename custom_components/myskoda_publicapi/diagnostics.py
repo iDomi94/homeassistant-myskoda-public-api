@@ -21,6 +21,38 @@ TO_REDACT = {
     "renderUrl",
 }
 
+#: Users name their saved charging locations after real places -- home, work,
+#: a relative. Diagnostics get pasted into public issues, so the names go.
+PROFILE_NAME_PLACEHOLDER = "**REDACTED**"
+
+
+def _redact_profile_names(raw: dict[str, Any]) -> dict[str, Any]:
+    """Replace the names of saved charging locations.
+
+    They are free text the user chose, and they routinely name a town, an
+    employer or a family member.
+    """
+    profiles = raw.get("chargingProfiles")
+    if not isinstance(profiles, dict):
+        return raw
+
+    redacted = {**raw, "chargingProfiles": {**profiles}}
+    section = redacted["chargingProfiles"]
+    if isinstance(section.get("profiles"), list):
+        section["profiles"] = [
+            {**profile, "name": PROFILE_NAME_PLACEHOLDER}
+            if isinstance(profile, dict) and "name" in profile
+            else profile
+            for profile in section["profiles"]
+        ]
+    current = section.get("currentVehiclePositionProfile")
+    if isinstance(current, dict) and "name" in current:
+        section["currentVehiclePositionProfile"] = {
+            **current,
+            "name": PROFILE_NAME_PLACEHOLDER,
+        }
+    return redacted
+
 
 async def async_get_config_entry_diagnostics(
     hass: HomeAssistant, entry: MySkodaPublicApiConfigEntry
@@ -50,7 +82,9 @@ async def async_get_config_entry_diagnostics(
                     else None
                 ),
                 "errors": state.data.errors if state.data else [],
-                "raw": async_redact_data(state.data.raw, TO_REDACT)
+                "raw": async_redact_data(
+                    _redact_profile_names(state.data.raw), TO_REDACT
+                )
                 if state.data
                 else None,
                 "command_settings": {
