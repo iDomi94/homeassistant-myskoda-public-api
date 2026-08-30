@@ -1,14 +1,18 @@
 {
   "domain": "myskoda_publicapi",
   "name": "MySkoda PublicAPI",
-  "codeowners": ["@iDomi94"],
+  "codeowners": [
+    "@iDomi94"
+  ],
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/iDomi94/homeassistant-myskoda-public-api/blob/main/README.md",
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/iDomi94/homeassistant-myskoda-public-api/issues",
-  "loggers": ["custom_components.myskoda_publicapi"],
+  "loggers": [
+    "custom_components.myskoda_publicapi"
+  ],
   "requirements": [],
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
