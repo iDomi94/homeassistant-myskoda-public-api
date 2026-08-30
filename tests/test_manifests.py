@@ -89,3 +89,16 @@ def test_no_service_uses_a_device_filter_on_target() -> None:
         if isinstance(body.get("target"), dict) and "device" in body["target"]
     ]
     assert not offenders, offenders
+
+
+def test_brand_assets_are_present_and_sized_correctly() -> None:
+    """HACS looks for brand assets here before falling back to the brands repo.
+
+    Wrong dimensions fail the check as surely as missing files.
+    """
+    import struct
+
+    for name, expected in (("icon.png", (256, 256)), ("icon@2x.png", (512, 512))):
+        data = (COMPONENT / "brand" / name).read_bytes()
+        assert data[:8] == b"\x89PNG\r\n\x1a\n", f"{name} is not a PNG"
+        assert struct.unpack(">II", data[16:24]) == expected, name
