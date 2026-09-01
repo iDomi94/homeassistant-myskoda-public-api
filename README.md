@@ -1,5 +1,7 @@
 # MySkoda PublicAPI — Home Assistant Integration
 
+**Sprache:** Deutsch | [English](README.en.md)
+
 Home-Assistant-Integration für die **offizielle MyŠkoda Public API**
 ([Doku](https://public.api.connect.skoda-auto.cz/docs) ·
 [API-Referenz](https://public.api.connect.skoda-auto.cz/docs/swagger-ui/index.html)).
