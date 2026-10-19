@@ -426,6 +426,9 @@
       "charging_cable_connected": {
         "name": "Charging cable"
       },
+      "charging_plug_locked": {
+        "name": "Charging plug lock"
+      },
       "vehicle_in_saved_location": {
         "name": "At a saved location"
       },

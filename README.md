@@ -177,11 +177,11 @@ Codeänderung in Home Assistant verfügbar.
 </details>
 
 <details>
-<summary><b>Binärsensoren</b> (bis zu 21)</summary>
+<summary><b>Binärsensoren</b> (bis zu 22)</summary>
 
 Türen verriegelt · Türen · Fenster · Licht · Schiebedach · Kofferraum · Motorhaube · lädt ·
-Ladekabel angeschlossen · an gespeichertem Ort · Klimatisierung läuft · Scheibenheizung
-aktiviert · Front-/Heckscheibenheizung · Klimatisierung ohne externe Stromversorgung ·
+Ladekabel angeschlossen · Ladestecker verriegelt · an gespeichertem Ort · Klimatisierung
+läuft · Scheibenheizung aktiviert · Front-/Heckscheibenheizung · Klimatisierung ohne externe Stromversorgung ·
 Klimatisierung beim Entriegeln · Standheizung läuft · Aktivlüftung läuft · in Bewegung ·
 API-Schlüssel läuft bald ab · Anfragelimit erreicht
 

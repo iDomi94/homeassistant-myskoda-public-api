@@ -22,6 +22,10 @@ from .const import (
     AUXILIARY_HEATING_STATES_ACTIVE,
     CHARGING_STATES_ACTIVE,
     CHARGING_STATES_CABLE_DISCONNECTED,
+    PLUG_CONNECTED,
+    PLUG_DISCONNECTED,
+    PLUG_LOCKED,
+    PLUG_UNLOCKED,
 )
 from .coordinator import MySkodaCoordinator, MySkodaPublicApiConfigEntry, VehicleState
 from .entity import (
@@ -71,15 +75,37 @@ def _boolean(path: str) -> Callable[[VehicleState], bool | None]:
 def _cable_connected(state: VehicleState) -> bool | None:
     """Report whether a charging cable is plugged in.
 
-    The API has no dedicated plug sensor; ``CONNECT_CABLE`` is the state that
-    asks the user to plug one in, so anything else means it is connected.
+    ``plugConnectionState`` is the dedicated field and wins whenever it carries
+    a known value. The charging ``state`` is only a fallback for responses
+    without it: the API omits ``state`` in everyday situations (plugged in and
+    unlocked without charging, shortly after a drive), but a disconnected plug
+    is always reported as ``CONNECT_CABLE``.
     """
     if state.data is None:
         return None
+    plug = clean_value(
+        nested_get(state.data.raw, "charging.status.plugConnectionState")
+    )
+    if plug == PLUG_CONNECTED:
+        return True
+    if plug == PLUG_DISCONNECTED:
+        return False
     value = clean_value(nested_get(state.data.raw, "charging.status.state"))
     if value is None:
         return None
     return value not in CHARGING_STATES_CABLE_DISCONNECTED
+
+
+def _plug_unlocked(state: VehicleState) -> bool | None:
+    """Report whether the charging plug is unlocked (lock device class)."""
+    if state.data is None:
+        return None
+    value = clean_value(nested_get(state.data.raw, "charging.status.plugLockState"))
+    if value == PLUG_UNLOCKED:
+        return True
+    if value == PLUG_LOCKED:
+        return False
+    return None
 
 
 VEHICLE_BINARY_SENSORS: tuple[MySkodaBinarySensorDescription, ...] = (
@@ -151,6 +177,15 @@ VEHICLE_BINARY_SENSORS: tuple[MySkodaBinarySensorDescription, ...] = (
         part="charging",
         device_class=BinarySensorDeviceClass.PLUG,
         value_fn=_cable_connected,
+    ),
+    MySkodaBinarySensorDescription(
+        key="charging_plug_locked",
+        translation_key="charging_plug_locked",
+        part="charging",
+        expose_raw=False,
+        # The lock device class is inverted: "on" means unlocked.
+        device_class=BinarySensorDeviceClass.LOCK,
+        value_fn=_plug_unlocked,
     ),
     MySkodaBinarySensorDescription(
         key="vehicle_in_saved_location",

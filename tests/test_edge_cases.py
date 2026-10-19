@@ -306,3 +306,85 @@ async def test_setting_temperature_while_running_reissues_the_command(
     )
     assert body["targetTemperature"]["value"] == 18.0
     assert entry.runtime_data.settings(VIN_BEV).target_temperature == 18.0
+
+
+async def _setup_bev(hass: HomeAssistant, api, payload: dict) -> None:
+    mock_vehicle(api, VIN_BEV, payload)
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_API_KEY: "k", CONF_VINS: [VIN_BEV]},
+        unique_id=VIN_BEV,
+    )
+    entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+
+
+async def test_omitted_charging_state_uses_plug_connection_state(
+    hass: HomeAssistant, api
+) -> None:
+    """Plugged in and unlocked without charging: no ``state``, but a plug state."""
+    payload = bev_with(
+        **{
+            "charging.status": {
+                "chargeType": "OFF",
+                "plugConnectionState": "CONNECTED",
+                "plugLockState": "UNLOCKED",
+            }
+        }
+    )
+    await _setup_bev(hass, api, payload)
+
+    assert hass.states.get("binary_sensor.my_enyaq_charging_cable").state == "on"
+    # Lock device class: on means unlocked.
+    assert hass.states.get("binary_sensor.my_enyaq_charging_plug_lock").state == "on"
+    assert hass.states.get("sensor.my_enyaq_charging_state").state == STATE_UNKNOWN
+    assert hass.states.get("binary_sensor.my_enyaq_charging").state == STATE_UNKNOWN
+
+
+async def test_plug_connection_state_wins_over_charging_state(
+    hass: HomeAssistant, api
+) -> None:
+    """The dedicated plug field decides, the charging state does not."""
+    payload = bev_with(
+        **{
+            "charging.status.state": "READY_FOR_CHARGING",
+            "charging.status.plugConnectionState": "DISCONNECTED",
+            "charging.status.plugLockState": "LOCKED",
+        }
+    )
+    await _setup_bev(hass, api, payload)
+
+    assert hass.states.get("binary_sensor.my_enyaq_charging_cable").state == "off"
+    assert hass.states.get("binary_sensor.my_enyaq_charging_plug_lock").state == "off"
+
+
+async def test_unknown_plug_value_falls_back_to_charging_state(
+    hass: HomeAssistant, api
+) -> None:
+    """A plug value added later is ignored in favour of the charging state."""
+    payload = bev_with(
+        **{
+            "charging.status.state": "CONNECT_CABLE",
+            "charging.status.plugConnectionState": "SOMETHING_NEW",
+        }
+    )
+    await _setup_bev(hass, api, payload)
+
+    assert hass.states.get("binary_sensor.my_enyaq_charging_cable").state == "off"
+    assert (
+        hass.states.get("binary_sensor.my_enyaq_charging_plug_lock").state
+        == STATE_UNKNOWN
+    )
+
+
+async def test_no_charging_state_and_no_plug_state_is_unknown(
+    hass: HomeAssistant, api
+) -> None:
+    """Shortly after a drive neither field may be usable."""
+    payload = bev_with(**{"charging.status": {"chargeType": "OFF"}})
+    await _setup_bev(hass, api, payload)
+
+    assert (
+        hass.states.get("binary_sensor.my_enyaq_charging_cable").state == STATE_UNKNOWN
+    )

@@ -8,7 +8,7 @@ info:
 
     Public API for reading connected-vehicle data and remotely controlling Škoda vehicles. It
     enables third-party integrations, for example with smart-home platforms such as Home Assistant.
-  version: 1.0.0-beta.6
+  version: 1.1.0
 servers:
 - url: https://public.api.connect.skoda-auto.cz
 tags:
@@ -901,13 +901,25 @@ components:
         state:
           type: string
           description: |
-            Charging state. Possible values are:
+            Charging state, derived from the charging process state and the plug state the vehicle
+            reports, using the same rules as the MyŠkoda app. Possible values are:
               * CONNECT_CABLE
               * CHARGING
               * CONSERVING
               * READY_FOR_CHARGING
               * DISCHARGING
               * CHARGING_INTERRUPTED
+            New values may be added over time, so clients must tolerate values they do not
+            recognize.
+
+            The field is omitted when the reported combination has no published name. This happens
+            in everyday situations, for example when the cable is plugged in and unlocked while no
+            charging process runs, or when the vehicle reports its charging status as invalid, for
+            example shortly after a drive. No entry is added to the `errors` list in that case. An
+            omitted state never means the plug was reported as disconnected - a disconnected plug
+            is always reported as `CONNECT_CABLE`. Read `plugConnectionState` to tell whether the
+            cable is plugged in, and treat an omitted state as unknown rather than as any specific
+            state.
           example: READY_FOR_CHARGING
         chargeType:
           type: string
@@ -919,6 +931,25 @@ components:
             New values may be added over time, so clients must tolerate values they do not
             recognize.
           example: DC
+        plugConnectionState:
+          type: string
+          description: |
+            Connection state of the charging cable plugs, as the vehicle reports it. Possible
+            values are:
+              * CONNECTED
+              * DISCONNECTED
+            New values may be added over time, so clients must tolerate values they do not
+            recognize. The field is omitted when the vehicle reports no usable value.
+          example: CONNECTED
+        plugLockState:
+          type: string
+          description: |
+            Lock state of the charging cable plugs, as the vehicle reports it. Possible values are:
+              * LOCKED
+              * UNLOCKED
+            New values may be added over time, so clients must tolerate values they do not
+            recognize. The field is omitted when the vehicle reports no usable value.
+          example: LOCKED
         battery:
           $ref: '#/components/schemas/BatteryStatus'
     BatteryStatus:

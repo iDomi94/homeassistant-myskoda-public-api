@@ -177,10 +177,10 @@ available in Home Assistant without a code change.
 </details>
 
 <details>
-<summary><b>Binary sensors</b> (up to 21)</summary>
+<summary><b>Binary sensors</b> (up to 22)</summary>
 
 Doors locked · doors · windows · lights · sunroof · trunk · bonnet · charging · charging
-cable · at a saved location · air conditioning running · window heating enabled ·
+cable · charging plug locked · at a saved location · air conditioning running · window heating enabled ·
 front/rear window heating · air conditioning without external power · air conditioning at
 unlock · auxiliary heating running · active ventilation running · in motion · API key
 expiring · rate limit reached

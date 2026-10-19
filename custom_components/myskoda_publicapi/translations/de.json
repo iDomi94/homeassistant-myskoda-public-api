@@ -426,6 +426,9 @@
       "charging_cable_connected": {
         "name": "Ladekabel"
       },
+      "charging_plug_locked": {
+        "name": "Ladestecker-Verriegelung"
+      },
       "vehicle_in_saved_location": {
         "name": "An gespeichertem Ort"
       },
